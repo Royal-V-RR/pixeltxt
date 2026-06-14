@@ -8,15 +8,15 @@
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap');
 
   :root {
-    --bg:       #0a0c0f;
-    --surface:  #111418;
-    --border:   #1e2530;
-    --cyan:     #00e5ff;
-    --green:    #39ff14;
-    --muted:    #3a4455;
-    --text:     #c8d6e8;
-    --dim:      #5a6a80;
-    --error:    #ff4757;
+    --bg:      #000000;
+    --surface: #0d0d0d;
+    --border:  #2a2a2a;
+    --cyan:    #00ffff;
+    --green:   #00ff41;
+    --muted:   #444444;
+    --text:    #ffffff;
+    --dim:     #888888;
+    --error:   #ff3333;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,7 +35,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 24px;
+    padding: 14px 24px;
     border-bottom: 1px solid var(--border);
     background: var(--surface);
     flex-wrap: wrap;
@@ -47,25 +47,43 @@
     font-weight: 700;
     letter-spacing: .12em;
     color: var(--cyan);
-    text-shadow: 0 0 18px rgba(0,229,255,.35);
+    text-shadow: 0 0 20px rgba(0,255,255,.6);
   }
-  .logo span { color: var(--dim); font-weight: 300; }
+  .logo span { color: #555; font-weight: 300; }
 
+  .header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
   .tagline {
     color: var(--dim);
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: .08em;
   }
+  .credits {
+    font-size: 10px;
+    color: #555;
+    text-align: right;
+  }
+  .credits a {
+    color: var(--cyan);
+    text-decoration: none;
+    opacity: .8;
+  }
+  .credits a:hover { opacity: 1; text-decoration: underline; }
 
   /* ── Layout ── */
   .workspace {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: calc(100vh - 57px);
+    min-height: calc(100vh - 64px);
   }
 
   @media (max-width: 720px) {
     .workspace { grid-template-columns: 1fr; }
+    .header-right { align-items: flex-start; }
   }
 
   /* ── Panels ── */
@@ -73,20 +91,21 @@
     display: flex;
     flex-direction: column;
     border-right: 1px solid var(--border);
-    padding: 24px;
-    gap: 16px;
+    padding: 22px;
+    gap: 14px;
   }
   .panel:last-child { border-right: none; }
 
   .panel-label {
     font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .2em;
+    font-weight: 700;
+    letter-spacing: .22em;
     text-transform: uppercase;
     color: var(--cyan);
     display: flex;
     align-items: center;
     gap: 8px;
+    text-shadow: 0 0 10px rgba(0,255,255,.4);
   }
   .panel-label::after {
     content: '';
@@ -98,23 +117,23 @@
   .panel-sub {
     font-size: 11px;
     color: var(--dim);
-    margin-top: -8px;
+    margin-top: -6px;
   }
 
   /* ── Drop zone ── */
   .drop-zone {
     border: 1px dashed var(--muted);
-    border-radius: 4px;
-    padding: 40px 20px;
+    border-radius: 2px;
+    padding: 36px 20px;
     text-align: center;
     cursor: pointer;
-    transition: border-color .2s, background .2s;
+    transition: border-color .15s, background .15s;
     position: relative;
     flex-shrink: 0;
   }
   .drop-zone:hover, .drop-zone.drag-over {
     border-color: var(--cyan);
-    background: rgba(0,229,255,.04);
+    background: rgba(0,255,255,.05);
   }
   .drop-zone input[type="file"] {
     position: absolute;
@@ -124,15 +143,8 @@
     width: 100%;
     height: 100%;
   }
-  .drop-icon {
-    font-size: 28px;
-    margin-bottom: 10px;
-    display: block;
-  }
-  .drop-label {
-    color: var(--dim);
-    font-size: 12px;
-  }
+  .drop-icon { font-size: 26px; margin-bottom: 8px; display: block; }
+  .drop-label { color: var(--dim); font-size: 11px; }
   .drop-label strong { color: var(--text); }
 
   /* ── Progress / status ── */
@@ -142,47 +154,43 @@
     gap: 10px;
     font-size: 11px;
     color: var(--dim);
-    min-height: 20px;
+    min-height: 18px;
   }
   .status-bar .ticker {
     color: var(--cyan);
     font-weight: 600;
-    min-width: 120px;
+    min-width: 130px;
+    text-shadow: 0 0 8px rgba(0,255,255,.35);
   }
-
   .progress-track {
     flex: 1;
     height: 2px;
-    background: var(--border);
-    border-radius: 2px;
+    background: #1a1a1a;
+    border-radius: 1px;
     overflow: hidden;
   }
   .progress-fill {
     height: 100%;
     background: var(--cyan);
     width: 0%;
-    transition: width .1s linear;
+    transition: width .08s linear;
     box-shadow: 0 0 8px var(--cyan);
   }
   .progress-fill.done { background: var(--green); box-shadow: 0 0 8px var(--green); }
   .progress-fill.err  { background: var(--error); box-shadow: none; }
 
   /* ── Output area ── */
-  .output-wrap {
-    flex: 1;
-    position: relative;
-    min-height: 200px;
-  }
+  .output-wrap { flex: 1; min-height: 180px; }
 
   .output-box {
     width: 100%;
     height: 100%;
-    min-height: 200px;
-    background: #070910;
+    min-height: 180px;
+    background: #050505;
     border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 12px;
-    color: var(--text);
+    border-radius: 2px;
+    padding: 10px 12px;
+    color: #e0e0e0;
     font-family: inherit;
     font-size: 11px;
     resize: vertical;
@@ -190,101 +198,86 @@
     white-space: pre;
     overflow: auto;
     tab-size: 2;
+    caret-color: var(--cyan);
   }
-  .output-box::placeholder { color: var(--muted); }
+  .output-box::placeholder { color: #333; }
 
   /* ── Buttons ── */
-  .btn-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
 
   .btn {
-    padding: 8px 18px;
+    padding: 7px 16px;
     font-family: inherit;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: .1em;
     text-transform: uppercase;
     border: 1px solid;
-    border-radius: 3px;
+    border-radius: 2px;
     cursor: pointer;
-    transition: background .15s, box-shadow .15s, opacity .15s;
+    transition: background .12s, box-shadow .12s, opacity .12s;
     background: transparent;
   }
-  .btn:disabled { opacity: .35; cursor: not-allowed; }
+  .btn:disabled { opacity: .3; cursor: not-allowed; }
 
-  .btn-primary {
-    color: var(--cyan);
-    border-color: var(--cyan);
-  }
+  .btn-primary { color: var(--cyan); border-color: var(--cyan); }
   .btn-primary:not(:disabled):hover {
-    background: rgba(0,229,255,.12);
-    box-shadow: 0 0 12px rgba(0,229,255,.25);
+    background: rgba(0,255,255,.12);
+    box-shadow: 0 0 14px rgba(0,255,255,.3);
   }
 
-  .btn-secondary {
-    color: var(--green);
-    border-color: var(--green);
-  }
+  .btn-secondary { color: var(--green); border-color: var(--green); }
   .btn-secondary:not(:disabled):hover {
-    background: rgba(57,255,20,.1);
-    box-shadow: 0 0 10px rgba(57,255,20,.2);
+    background: rgba(0,255,65,.1);
+    box-shadow: 0 0 12px rgba(0,255,65,.25);
   }
 
-  .btn-muted {
-    color: var(--dim);
-    border-color: var(--muted);
-  }
-  .btn-muted:not(:disabled):hover {
-    color: var(--text);
-    border-color: var(--dim);
-  }
+  .btn-muted { color: var(--dim); border-color: var(--muted); }
+  .btn-muted:not(:disabled):hover { color: var(--text); border-color: var(--dim); }
 
   /* ── Image preview ── */
   .preview-wrap {
     border: 1px solid var(--border);
-    border-radius: 4px;
+    border-radius: 2px;
     overflow: hidden;
-    max-height: 200px;
+    max-height: 190px;
     display: none;
-    background: #070910;
+    background: #050505;
     align-items: center;
     justify-content: center;
   }
   .preview-wrap.visible { display: flex; }
   .preview-wrap img, .preview-wrap canvas {
     max-width: 100%;
-    max-height: 200px;
+    max-height: 190px;
     object-fit: contain;
     display: block;
+    image-rendering: pixelated;
   }
 
-  /* ── Meta pill ── */
+  /* ── Meta pills ── */
   .meta-pill {
     display: inline-flex;
-    gap: 6px;
+    gap: 5px;
     align-items: center;
-    background: var(--surface);
+    background: #111;
     border: 1px solid var(--border);
-    border-radius: 3px;
-    padding: 4px 10px;
+    border-radius: 2px;
+    padding: 3px 9px;
     font-size: 10px;
     color: var(--dim);
   }
   .meta-pill b { color: var(--text); }
-
-  .meta-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .meta-row { display: flex; gap: 6px; flex-wrap: wrap; }
 
   /* ── Warning banner ── */
   .warn-banner {
-    background: rgba(255,71,87,.08);
-    border: 1px solid rgba(255,71,87,.3);
-    border-radius: 3px;
-    padding: 8px 12px;
+    background: rgba(255,51,51,.08);
+    border: 1px solid rgba(255,51,51,.35);
+    border-radius: 2px;
+    padding: 7px 12px;
     font-size: 11px;
-    color: #ff8a96;
+    color: #ff8080;
     display: none;
   }
   .warn-banner.visible { display: block; }
@@ -292,17 +285,23 @@
   canvas { display: none; }
 
   /* ── Scrollbar ── */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--dim); }
+  ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: #555; }
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo">PIXEL<span>TXT</span></div>
-  <div class="tagline">Image ↔ Pixel Text · 100% client-side · no upload</div>
+  <div class="header-right">
+    <div class="tagline">Image ↔ Pixel Text &nbsp;·&nbsp; 100% client-side &nbsp;·&nbsp; no upload</div>
+    <div class="credits">
+      Made by Royal V- · inspired by a joke made by Kara &nbsp;|&nbsp;
+      <a href="https://discord.gg/respawnraccoon" target="_blank" rel="noopener">Join the server ↗</a>
+    </div>
+  </div>
 </header>
 
 <div class="workspace">
@@ -319,7 +318,7 @@
     </div>
 
     <div class="warn-banner" id="warnA">
-      ⚠ Large image detected. Conversion may take a while. The tab may appear unresponsive — it will finish.
+      ⚠ Large image detected. Structuring may take a while. The tab may appear unresponsive — it will finish.
     </div>
 
     <div class="preview-wrap" id="previewA">
@@ -335,20 +334,20 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-primary" id="convertABtn" disabled>Convert to .txt</button>
+      <button class="btn btn-primary" id="convertABtn" disabled>Structure to .txt</button>
       <button class="btn btn-secondary" id="downloadABtn" disabled>Download .txt</button>
       <button class="btn btn-muted" id="clearABtn" disabled>Clear</button>
     </div>
 
     <div class="output-wrap">
-      <textarea class="output-box" id="outputA" readonly placeholder="// pixel data will appear here&#10;// (0,0): #rrggbb&#10;// (1,0): #rrggbb&#10;// ..."></textarea>
+      <textarea class="output-box" id="outputA" readonly placeholder="// structured pixel data will appear here&#10;// (0,0): #rrggbb&#10;// (1,0): #rrggbb&#10;// ..."></textarea>
     </div>
   </div>
 
   <!-- ══ PANEL B: TXT → Image ══ -->
   <div class="panel" id="panelB">
     <div class="panel-label">Text → Image</div>
-    <p class="panel-sub">Upload a .txt file made by this tool. It will reconstruct the exact image.</p>
+    <p class="panel-sub">Upload a .txt file made by this tool. It will restructure the exact image.</p>
 
     <div class="drop-zone" id="dropB">
       <input type="file" id="fileB" accept=".txt,text/plain">
@@ -357,7 +356,7 @@
     </div>
 
     <div class="warn-banner" id="warnB">
-      ⚠ Large file detected. Reconstruction may take a while.
+      ⚠ Large file detected. Restructuring may take a while.
     </div>
 
     <div class="meta-row" id="metaB"></div>
@@ -368,7 +367,7 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-primary" id="convertBBtn" disabled>Reconstruct Image</button>
+      <button class="btn btn-primary" id="convertBBtn" disabled>Restructure to Image</button>
       <button class="btn btn-secondary" id="downloadBBtn" disabled>Download PNG</button>
       <button class="btn btn-muted" id="clearBBtn" disabled>Clear</button>
     </div>
@@ -385,24 +384,32 @@
 </div>
 
 <script>
-/* ════════════════════════════════════════════════════
+/* ════════════════════════════════════════════════════════
    PIXELTXT — pure client-side pixel ↔ text converter
-   Format: (x,y): #rrggbb[aa]   x=col, y=row
-   ════════════════════════════════════════════════════ */
+   Format: (x,y): #rrggbb[aa]   x=col, y=row, origin top-left
 
-const CHUNK = 50000; // pixels per async tick to keep UI alive
+   Perf strategy:
+   ▸ Image→Text: pre-built 256-entry hex lookup table, output
+     written in large string chunks via Blob rather than
+     array-of-strings join, offscreen canvas for pixel read.
+   ▸ Text→Image: manual char-by-char parser (no regex per line),
+     Uint8ClampedArray written directly, single putImageData.
+   ▸ Both: 200ms-interval async yields instead of per-row yields
+     to maximise throughput while keeping UI alive.
+   ════════════════════════════════════════════════════════ */
 
-// ── helpers ──────────────────────────────────────────
-function toHex2(n) { return n.toString(16).padStart(2, '0'); }
-function clamp255(n) { return Math.max(0, Math.min(255, n)); }
+// ── Hex lookup table (0-255 → "00"-"ff") ─────────────────
+const HEX = new Array(256);
+for (let i = 0; i < 256; i++) HEX[i] = i.toString(16).padStart(2, '0');
 
-function yieldFrame() {
-  return new Promise(r => setTimeout(r, 0));
-}
+const YIELD_MS  = 200; // ms between async yields
+const CHUNK_TXT = 1_000_000; // chars per Blob chunk
 
-function setProgress(fillEl, pct, state) {
-  fillEl.style.width = pct + '%';
-  fillEl.className = 'progress-fill' + (state ? ' ' + state : '');
+function sleep() { return new Promise(r => setTimeout(r, 0)); }
+
+function setProgress(el, pct, state) {
+  el.style.width = pct + '%';
+  el.className = 'progress-fill' + (state ? ' ' + state : '');
 }
 
 function makePill(label, value) {
@@ -412,43 +419,32 @@ function makePill(label, value) {
   return d;
 }
 
-function formatNum(n) { return n.toLocaleString(); }
+function fmt(n) { return n.toLocaleString(); }
 
-// ══════════════════════════════════════════════════════
-// PANEL A  ·  Image → Text
-// ══════════════════════════════════════════════════════
-const fileA      = document.getElementById('fileA');
-const dropA      = document.getElementById('dropA');
-const previewA   = document.getElementById('previewA');
-const previewImgA= document.getElementById('previewImgA');
-const canvasA    = document.getElementById('canvasA');
-const metaA      = document.getElementById('metaA');
-const tickerA    = document.getElementById('tickerA');
-const progA      = document.getElementById('progA');
-const outputA    = document.getElementById('outputA');
-const warnA      = document.getElementById('warnA');
-const convertABtn= document.getElementById('convertABtn');
-const downloadABtn=document.getElementById('downloadABtn');
-const clearABtn  = document.getElementById('clearABtn');
+// ══════════════════════════════════════════════════════════
+// PANEL A · Image → Text
+// ══════════════════════════════════════════════════════════
+const fileA       = document.getElementById('fileA');
+const dropA       = document.getElementById('dropA');
+const previewA    = document.getElementById('previewA');
+const previewImgA = document.getElementById('previewImgA');
+const canvasA     = document.getElementById('canvasA');
+const metaA       = document.getElementById('metaA');
+const tickerA     = document.getElementById('tickerA');
+const progA       = document.getElementById('progA');
+const outputA     = document.getElementById('outputA');
+const warnA       = document.getElementById('warnA');
+const convertABtn = document.getElementById('convertABtn');
+const downloadABtn= document.getElementById('downloadABtn');
+const clearABtn   = document.getElementById('clearABtn');
 
-let imgDataA = null;
-let imgW = 0, imgH = 0;
-let txtResultA = '';
+let imgDataA = null, imgW = 0, imgH = 0;
+let blobUrlA = null; // the downloadable blob URL
 
-// drag & drop
 dropA.addEventListener('dragover', e => { e.preventDefault(); dropA.classList.add('drag-over'); });
 dropA.addEventListener('dragleave', () => dropA.classList.remove('drag-over'));
-dropA.addEventListener('drop', e => {
-  e.preventDefault();
-  dropA.classList.remove('drag-over');
-  const f = e.dataTransfer.files[0];
-  if (f) loadImageFile(f);
-});
-
-fileA.addEventListener('change', () => {
-  if (fileA.files[0]) loadImageFile(fileA.files[0]);
-  fileA.value = '';
-});
+dropA.addEventListener('drop', e => { e.preventDefault(); dropA.classList.remove('drag-over'); const f = e.dataTransfer.files[0]; if (f) loadImageFile(f); });
+fileA.addEventListener('change', () => { if (fileA.files[0]) loadImageFile(fileA.files[0]); fileA.value = ''; });
 
 function loadImageFile(file) {
   const url = URL.createObjectURL(file);
@@ -457,39 +453,30 @@ function loadImageFile(file) {
     imgW = img.naturalWidth;
     imgH = img.naturalHeight;
     const total = imgW * imgH;
-
-    // draw to canvas to extract pixel data
     canvasA.width = imgW;
     canvasA.height = imgH;
-    const ctx = canvasA.getContext('2d');
+    const ctx = canvasA.getContext('2d', { willReadFrequently: true });
     ctx.drawImage(img, 0, 0);
     imgDataA = ctx.getImageData(0, 0, imgW, imgH).data;
 
-    // preview
     previewImgA.src = url;
     previewA.classList.add('visible');
 
-    // meta
     metaA.innerHTML = '';
     metaA.appendChild(makePill('W', imgW + 'px'));
     metaA.appendChild(makePill('H', imgH + 'px'));
-    metaA.appendChild(makePill('Pixels', formatNum(total)));
+    metaA.appendChild(makePill('Pixels', fmt(total)));
 
-    // warn for big images
-    warnA.classList.toggle('visible', total > 500000);
-
-    tickerA.textContent = 'Ready · ' + formatNum(total) + ' px';
+    warnA.classList.toggle('visible', total > 500_000);
+    tickerA.textContent = 'Ready · ' + fmt(total) + ' px';
     setProgress(progA, 0, '');
     outputA.value = '';
-    txtResultA = '';
+    if (blobUrlA) { URL.revokeObjectURL(blobUrlA); blobUrlA = null; }
     convertABtn.disabled = false;
     downloadABtn.disabled = true;
     clearABtn.disabled = false;
   };
-  img.onerror = () => {
-    tickerA.textContent = 'Error: could not read image';
-    setProgress(progA, 100, 'err');
-  };
+  img.onerror = () => { tickerA.textContent = '✗ Could not read image'; setProgress(progA, 100, 'err'); };
   img.src = url;
 }
 
@@ -497,55 +484,70 @@ convertABtn.addEventListener('click', async () => {
   if (!imgDataA) return;
   convertABtn.disabled = true;
   downloadABtn.disabled = true;
+  if (blobUrlA) { URL.revokeObjectURL(blobUrlA); blobUrlA = null; }
   outputA.value = '';
-  txtResultA = '';
 
   const total = imgW * imgH;
-  const lines = [];
-  let done = 0;
-
+  const data  = imgDataA;
+  const W     = imgW;
   setProgress(progA, 0, '');
-  tickerA.textContent = '0 / ' + formatNum(total);
+  tickerA.textContent = 'Structuring…';
 
-  for (let y = 0; y < imgH; y++) {
-    for (let x = 0; x < imgW; x++) {
-      const i = (y * imgW + x) * 4;
-      const r = imgDataA[i];
-      const g = imgDataA[i+1];
-      const b = imgDataA[i+2];
-      const a = imgDataA[i+3];
-      const hex = '#' + toHex2(r) + toHex2(g) + toHex2(b) + (a < 255 ? toHex2(a) : '');
-      lines.push(`(${x},${y}): ${hex}`);
-      done++;
+  // Build output in string chunks, periodically yield to keep UI alive
+  // We accumulate chars then push to blobParts to avoid one giant string
+  const blobParts = [];
+  let buf = '';
+  let lastYield = performance.now();
+
+  for (let idx = 0, px = 0; px < total; px++, idx += 4) {
+    const x = px % W;
+    const y = (px - x) / W;
+    const r = data[idx], g = data[idx+1], b = data[idx+2], a = data[idx+3];
+    buf += '(' + x + ',' + y + '): #' + HEX[r] + HEX[g] + HEX[b] + (a < 255 ? HEX[a] : '') + '\n';
+
+    // flush buffer to blobParts when large enough
+    if (buf.length >= CHUNK_TXT) {
+      blobParts.push(buf);
+      buf = '';
     }
-    // yield every CHUNK rows to keep page responsive
-    if (done % CHUNK < imgW) {
-      const pct = (done / total * 100).toFixed(1);
+
+    const now = performance.now();
+    if (now - lastYield >= YIELD_MS) {
+      const pct = (px / total * 100).toFixed(1);
       setProgress(progA, pct, '');
-      tickerA.textContent = formatNum(done) + ' / ' + formatNum(total);
-      await yieldFrame();
+      tickerA.textContent = fmt(px) + ' / ' + fmt(total);
+      await sleep();
+      lastYield = performance.now();
     }
   }
 
-  txtResultA = lines.join('\n');
-  outputA.value = txtResultA;
+  if (buf.length) blobParts.push(buf);
+
+  const blob = new Blob(blobParts, { type: 'text/plain' });
+  blobUrlA = URL.createObjectURL(blob);
+
+  // Show a preview of the first ~5000 chars so the textarea isn't swamped
+  const previewText = blobParts.slice(0, 1).join('').slice(0, 5000);
+  const overflow = total > 1000;
+  outputA.value = previewText + (overflow ? '\n\n// … ' + fmt(total) + ' lines total — use Download to get the full file' : '');
+
   setProgress(progA, 100, 'done');
-  tickerA.textContent = '✓ ' + formatNum(total) + ' pixels encoded';
+  tickerA.textContent = '✓ ' + fmt(total) + ' pixels structured';
   convertABtn.disabled = false;
   downloadABtn.disabled = false;
 });
 
 downloadABtn.addEventListener('click', () => {
-  if (!txtResultA) return;
-  const blob = new Blob([txtResultA], { type: 'text/plain' });
+  if (!blobUrlA) return;
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
+  a.href = blobUrlA;
   a.download = 'pixels.txt';
   a.click();
 });
 
 clearABtn.addEventListener('click', () => {
-  imgDataA = null; imgW = 0; imgH = 0; txtResultA = '';
+  imgDataA = null; imgW = 0; imgH = 0;
+  if (blobUrlA) { URL.revokeObjectURL(blobUrlA); blobUrlA = null; }
   previewA.classList.remove('visible');
   previewImgA.src = '';
   metaA.innerHTML = '';
@@ -559,9 +561,11 @@ clearABtn.addEventListener('click', () => {
 });
 
 
-// ══════════════════════════════════════════════════════
-// PANEL B  ·  Text → Image
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
+// PANEL B · Text → Image
+// High-performance manual parser: no regex per line,
+// reads char codes directly for max throughput.
+// ══════════════════════════════════════════════════════════
 const fileB       = document.getElementById('fileB');
 const dropB       = document.getElementById('dropB');
 const previewB    = document.getElementById('previewB');
@@ -577,25 +581,22 @@ const clearBBtn   = document.getElementById('clearBBtn');
 
 dropB.addEventListener('dragover', e => { e.preventDefault(); dropB.classList.add('drag-over'); });
 dropB.addEventListener('dragleave', () => dropB.classList.remove('drag-over'));
-dropB.addEventListener('drop', e => {
-  e.preventDefault();
-  dropB.classList.remove('drag-over');
-  const f = e.dataTransfer.files[0];
-  if (f) loadTxtFile(f);
-});
+dropB.addEventListener('drop', e => { e.preventDefault(); dropB.classList.remove('drag-over'); const f = e.dataTransfer.files[0]; if (f) loadTxtFile(f); });
+fileB.addEventListener('change', () => { if (fileB.files[0]) loadTxtFile(fileB.files[0]); fileB.value = ''; });
 
-fileB.addEventListener('change', () => {
-  if (fileB.files[0]) loadTxtFile(fileB.files[0]);
-  fileB.value = '';
-});
+let rawTxtB = '';
 
 function loadTxtFile(file) {
   const reader = new FileReader();
   reader.onload = e => {
-    outputB.value = e.target.result;
-    const lines = e.target.result.split('\n').filter(l => l.trim() && !l.startsWith('//'));
-    warnB.classList.toggle('visible', lines.length > 500000);
-    tickerB.textContent = formatNum(lines.length) + ' lines loaded';
+    rawTxtB = e.target.result;
+    // count non-blank non-comment lines for the UI
+    let count = 0;
+    const lines = rawTxtB.split('\n');
+    for (const l of lines) { const t = l.trim(); if (t && !t.startsWith('//')) count++; }
+    outputB.value = rawTxtB.slice(0, 8000) + (rawTxtB.length > 8000 ? '\n\n// … file truncated in preview' : '');
+    warnB.classList.toggle('visible', count > 500_000);
+    tickerB.textContent = fmt(count) + ' lines loaded';
     setProgress(progB, 0, '');
     previewB.classList.remove('visible');
     metaB.innerHTML = '';
@@ -606,49 +607,102 @@ function loadTxtFile(file) {
   reader.readAsText(file);
 }
 
-// Allow typing/pasting into outputB to enable convert
 outputB.addEventListener('input', () => {
-  const hasContent = outputB.value.trim().length > 0;
-  convertBBtn.disabled = !hasContent;
-  clearBBtn.disabled = !hasContent;
+  rawTxtB = outputB.value;
+  const has = rawTxtB.trim().length > 0;
+  convertBBtn.disabled = !has;
+  clearBBtn.disabled = !has;
   downloadBBtn.disabled = true;
   previewB.classList.remove('visible');
 });
 
-// Parse a hex colour string → {r,g,b,a}
-// Accepts: #rgb  #rgba  #rrggbb  #rrggbbaa
-function parseHex(hex) {
-  hex = hex.trim().replace(/^#/, '');
-  let r,g,b,a=255;
-  if (hex.length === 3) {
-    r = parseInt(hex[0]+hex[0],16);
-    g = parseInt(hex[1]+hex[1],16);
-    b = parseInt(hex[2]+hex[2],16);
-  } else if (hex.length === 4) {
-    r = parseInt(hex[0]+hex[0],16);
-    g = parseInt(hex[1]+hex[1],16);
-    b = parseInt(hex[2]+hex[2],16);
-    a = parseInt(hex[3]+hex[3],16);
-  } else if (hex.length === 6) {
-    r = parseInt(hex.slice(0,2),16);
-    g = parseInt(hex.slice(2,4),16);
-    b = parseInt(hex.slice(4,6),16);
-  } else if (hex.length === 8) {
-    r = parseInt(hex.slice(0,2),16);
-    g = parseInt(hex.slice(2,4),16);
-    b = parseInt(hex.slice(4,6),16);
-    a = parseInt(hex.slice(6,8),16);
-  } else { return null; }
-  if ([r,g,b,a].some(isNaN)) return null;
-  return { r: clamp255(r), g: clamp255(g), b: clamp255(b), a: clamp255(a) };
+// Fast hex nibble: '0'-'9' → 0-9, 'a'-'f'/'A'-'F' → 10-15, else -1
+function hexNibble(c) {
+  if (c >= 48 && c <= 57)  return c - 48;       // '0'-'9'
+  if (c >= 97 && c <= 102) return c - 87;        // 'a'-'f'
+  if (c >= 65 && c <= 70)  return c - 55;        // 'A'-'F'
+  return -1;
 }
 
-// Line format:  (x,y): #hex
-// Also tolerates slight whitespace variations
-const LINE_RE = /^\(\s*(\d+)\s*,\s*(\d+)\s*\)\s*:\s*(#[0-9a-fA-F]{3,8})/;
+// Parse a line of the form (x,y): #hex
+// Returns {x,y,r,g,b,a} or null. Manual char scan, no regex.
+function parseLine(line) {
+  let i = 0;
+  const len = line.length;
+
+  // skip whitespace
+  while (i < len && line.charCodeAt(i) <= 32) i++;
+
+  // expect '('
+  if (i >= len || line.charCodeAt(i) !== 40) return null; // '('
+  i++;
+
+  // parse x
+  let x = 0, digits = 0;
+  while (i < len) {
+    const c = line.charCodeAt(i);
+    if (c >= 48 && c <= 57) { x = x * 10 + (c - 48); i++; digits++; }
+    else break;
+  }
+  if (!digits) return null;
+
+  // skip whitespace, expect ','
+  while (i < len && line.charCodeAt(i) === 32) i++;
+  if (i >= len || line.charCodeAt(i) !== 44) return null; // ','
+  i++;
+
+  // parse y
+  while (i < len && line.charCodeAt(i) === 32) i++;
+  let y = 0; digits = 0;
+  while (i < len) {
+    const c = line.charCodeAt(i);
+    if (c >= 48 && c <= 57) { y = y * 10 + (c - 48); i++; digits++; }
+    else break;
+  }
+  if (!digits) return null;
+
+  // expect ')'
+  while (i < len && line.charCodeAt(i) === 32) i++;
+  if (i >= len || line.charCodeAt(i) !== 41) return null; // ')'
+  i++;
+
+  // skip whitespace, expect ':'
+  while (i < len && line.charCodeAt(i) === 32) i++;
+  if (i >= len || line.charCodeAt(i) !== 58) return null; // ':'
+  i++;
+
+  // skip whitespace, expect '#'
+  while (i < len && line.charCodeAt(i) === 32) i++;
+  if (i >= len || line.charCodeAt(i) !== 35) return null; // '#'
+  i++;
+
+  // read up to 8 hex nibbles
+  const nibs = [];
+  while (nibs.length < 8 && i < len) {
+    const n = hexNibble(line.charCodeAt(i));
+    if (n < 0) break;
+    nibs.push(n);
+    i++;
+  }
+
+  let r, g, b, a = 255;
+  if (nibs.length === 3) {
+    r = nibs[0]*17; g = nibs[1]*17; b = nibs[2]*17;
+  } else if (nibs.length === 4) {
+    r = nibs[0]*17; g = nibs[1]*17; b = nibs[2]*17; a = nibs[3]*17;
+  } else if (nibs.length === 6) {
+    r = nibs[0]*16+nibs[1]; g = nibs[2]*16+nibs[3]; b = nibs[4]*16+nibs[5];
+  } else if (nibs.length === 8) {
+    r = nibs[0]*16+nibs[1]; g = nibs[2]*16+nibs[3]; b = nibs[4]*16+nibs[5]; a = nibs[6]*16+nibs[7];
+  } else {
+    return null;
+  }
+
+  return { x, y, r, g, b, a };
+}
 
 convertBBtn.addEventListener('click', async () => {
-  const raw = outputB.value;
+  const raw = rawTxtB || outputB.value;
   if (!raw.trim()) return;
 
   convertBBtn.disabled = true;
@@ -657,38 +711,55 @@ convertBBtn.addEventListener('click', async () => {
   metaB.innerHTML = '';
   setProgress(progB, 0, '');
   tickerB.textContent = 'Parsing…';
-  await yieldFrame();
+  await sleep();
 
-  const rawLines = raw.split('\n');
-  const pixels = []; // {x,y,r,g,b,a}
-  let maxX = 0, maxY = 0;
-  let skipped = 0;
-  const total = rawLines.length;
+  // Split into lines
+  const lines  = raw.split('\n');
+  const total  = lines.length;
 
-  for (let i = 0; i < rawLines.length; i++) {
-    const line = rawLines[i].trim();
-    if (!line || line.startsWith('//')) { skipped++; continue; }
+  // First pass: parse all pixels into flat typed arrays for speed
+  // We'll store coords + colours in parallel arrays
+  const MAX = total; // upper bound
+  const xs = new Int32Array(MAX);
+  const ys = new Int32Array(MAX);
+  const rs = new Uint8Array(MAX);
+  const gs = new Uint8Array(MAX);
+  const bs = new Uint8Array(MAX);
+  const as = new Uint8Array(MAX);
 
-    const m = LINE_RE.exec(line);
-    if (!m) { skipped++; continue; }
+  let count  = 0;
+  let maxX   = 0;
+  let maxY   = 0;
+  let skipped= 0;
+  let lastYield = performance.now();
 
-    const x = parseInt(m[1]);
-    const y = parseInt(m[2]);
-    const col = parseHex(m[3]);
-    if (!col) { skipped++; continue; }
+  for (let i = 0; i < total; i++) {
+    const line = lines[i];
+    // Fast skip: blank or comment
+    const first = line.trimStart();
+    if (!first || first.charCodeAt(0) === 47) { skipped++; continue; } // '/'
 
-    pixels.push({ x, y, ...col });
-    if (x > maxX) maxX = x;
-    if (y > maxY) maxY = y;
+    const p = parseLine(line);
+    if (!p) { skipped++; continue; }
 
-    if (i % CHUNK === 0 && i > 0) {
-      setProgress(progB, (i / total * 50).toFixed(1), '');
-      tickerB.textContent = 'Parsing ' + formatNum(i) + ' / ' + formatNum(total);
-      await yieldFrame();
+    xs[count] = p.x; ys[count] = p.y;
+    rs[count] = p.r; gs[count] = p.g;
+    bs[count] = p.b; as[count] = p.a;
+    count++;
+
+    if (p.x > maxX) maxX = p.x;
+    if (p.y > maxY) maxY = p.y;
+
+    const now = performance.now();
+    if (now - lastYield >= YIELD_MS) {
+      setProgress(progB, (i / total * 60).toFixed(1), '');
+      tickerB.textContent = 'Parsing ' + fmt(i) + ' / ' + fmt(total);
+      await sleep();
+      lastYield = performance.now();
     }
   }
 
-  if (pixels.length === 0) {
+  if (count === 0) {
     tickerB.textContent = '✗ No valid pixel lines found';
     setProgress(progB, 100, 'err');
     convertBBtn.disabled = false;
@@ -699,31 +770,31 @@ convertBBtn.addEventListener('click', async () => {
   const H = maxY + 1;
 
   tickerB.textContent = 'Drawing ' + W + '×' + H + '…';
-  setProgress(progB, 50, '');
-  await yieldFrame();
+  setProgress(progB, 60, '');
+  await sleep();
 
+  // Build ImageData directly — single putImageData, much faster than per-pixel fillRect
   canvasB.width  = W;
   canvasB.height = H;
   const ctx = canvasB.getContext('2d');
-  // default transparent bg
-  ctx.clearRect(0, 0, W, H);
 
-  const imgData = ctx.createImageData(W, H);
-  const d = imgData.data;
+  const imgData = new ImageData(W, H);
+  const d = imgData.data; // Uint8ClampedArray
 
-  const pTotal = pixels.length;
-  for (let i = 0; i < pTotal; i++) {
-    const { x, y, r, g, b, a } = pixels[i];
-    const idx = (y * W + x) * 4;
-    d[idx]   = r;
-    d[idx+1] = g;
-    d[idx+2] = b;
-    d[idx+3] = a;
+  lastYield = performance.now();
+  for (let i = 0; i < count; i++) {
+    const idx = (ys[i] * W + xs[i]) << 2;
+    d[idx]   = rs[i];
+    d[idx+1] = gs[i];
+    d[idx+2] = bs[i];
+    d[idx+3] = as[i];
 
-    if (i % CHUNK === 0 && i > 0) {
-      setProgress(progB, (50 + i / pTotal * 50).toFixed(1), '');
-      tickerB.textContent = 'Drawing ' + formatNum(i) + ' / ' + formatNum(pTotal);
-      await yieldFrame();
+    const now = performance.now();
+    if (now - lastYield >= YIELD_MS) {
+      setProgress(progB, (60 + i / count * 38).toFixed(1), '');
+      tickerB.textContent = 'Drawing ' + fmt(i) + ' / ' + fmt(count);
+      await sleep();
+      lastYield = performance.now();
     }
   }
 
@@ -731,28 +802,29 @@ convertBBtn.addEventListener('click', async () => {
 
   setProgress(progB, 100, 'done');
   previewB.classList.add('visible');
-  downloadBBtn.disabled = false;
   convertBBtn.disabled = false;
+  downloadBBtn.disabled = false;
 
   metaB.innerHTML = '';
   metaB.appendChild(makePill('W', W + 'px'));
   metaB.appendChild(makePill('H', H + 'px'));
-  metaB.appendChild(makePill('Pixels', formatNum(pixels.length)));
-  if (skipped) metaB.appendChild(makePill('Skipped', formatNum(skipped)));
+  metaB.appendChild(makePill('Pixels', fmt(count)));
+  if (skipped) metaB.appendChild(makePill('Skipped', fmt(skipped)));
 
-  tickerB.textContent = '✓ ' + W + '×' + H + ' image reconstructed';
+  tickerB.textContent = '✓ ' + W + '×' + H + ' image restructured';
 });
 
 downloadBBtn.addEventListener('click', () => {
   canvasB.toBlob(blob => {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'reconstructed.png';
+    a.download = 'restructured.png';
     a.click();
   }, 'image/png');
 });
 
 clearBBtn.addEventListener('click', () => {
+  rawTxtB = '';
   outputB.value = '';
   previewB.classList.remove('visible');
   metaB.innerHTML = '';
