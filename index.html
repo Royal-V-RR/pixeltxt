@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PIXELTXT — Pixel ↔ Text Converter</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap');
+
+  :root {
+    --bg:       #0a0c0f;
+    --surface:  #111418;
+    --border:   #1e2530;
+    --cyan:     #00e5ff;
+    --green:    #39ff14;
+    --muted:    #3a4455;
+    --text:     #c8d6e8;
+    --dim:      #5a6a80;
+    --error:    #ff4757;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .logo {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    color: var(--cyan);
+    text-shadow: 0 0 18px rgba(0,229,255,.35);
+  }
+  .logo span { color: var(--dim); font-weight: 300; }
+
+  .tagline {
+    color: var(--dim);
+    font-size: 11px;
+    letter-spacing: .08em;
+  }
+
+  /* ── Layout ── */
+  .workspace {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 57px);
+  }
+
+  @media (max-width: 720px) {
+    .workspace { grid-template-columns: 1fr; }
+  }
+
+  /* ── Panels ── */
+  .panel {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border);
+    padding: 24px;
+    gap: 16px;
+  }
+  .panel:last-child { border-right: none; }
+
+  .panel-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .panel-sub {
+    font-size: 11px;
+    color: var(--dim);
+    margin-top: -8px;
+  }
+
+  /* ── Drop zone ── */
+  .drop-zone {
+    border: 1px dashed var(--muted);
+    border-radius: 4px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .drop-zone:hover, .drop-zone.drag-over {
+    border-color: var(--cyan);
+    background: rgba(0,229,255,.04);
+  }
+  .drop-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+  .drop-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .drop-label {
+    color: var(--dim);
+    font-size: 12px;
+  }
+  .drop-label strong { color: var(--text); }
+
+  /* ── Progress / status ── */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    color: var(--dim);
+    min-height: 20px;
+  }
+  .status-bar .ticker {
+    color: var(--cyan);
+    font-weight: 600;
+    min-width: 120px;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--cyan);
+    width: 0%;
+    transition: width .1s linear;
+    box-shadow: 0 0 8px var(--cyan);
+  }
+  .progress-fill.done { background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .progress-fill.err  { background: var(--error); box-shadow: none; }
+
+  /* ── Output area ── */
+  .output-wrap {
+    flex: 1;
+    position: relative;
+    min-height: 200px;
+  }
+
+  .output-box {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    background: #070910;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 11px;
+    resize: vertical;
+    outline: none;
+    white-space: pre;
+    overflow: auto;
+    tab-size: 2;
+  }
+  .output-box::placeholder { color: var(--muted); }
+
+  /* ── Buttons ── */
+  .btn-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 8px 18px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    border: 1px solid;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background .15s, box-shadow .15s, opacity .15s;
+    background: transparent;
+  }
+  .btn:disabled { opacity: .35; cursor: not-allowed; }
+
+  .btn-primary {
+    color: var(--cyan);
+    border-color: var(--cyan);
+  }
+  .btn-primary:not(:disabled):hover {
+    background: rgba(0,229,255,.12);
+    box-shadow: 0 0 12px rgba(0,229,255,.25);
+  }
+
+  .btn-secondary {
+    color: var(--green);
+    border-color: var(--green);
+  }
+  .btn-secondary:not(:disabled):hover {
+    background: rgba(57,255,20,.1);
+    box-shadow: 0 0 10px rgba(57,255,20,.2);
+  }
+
+  .btn-muted {
+    color: var(--dim);
+    border-color: var(--muted);
+  }
+  .btn-muted:not(:disabled):hover {
+    color: var(--text);
+    border-color: var(--dim);
+  }
+
+  /* ── Image preview ── */
+  .preview-wrap {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    max-height: 200px;
+    display: none;
+    background: #070910;
+    align-items: center;
+    justify-content: center;
+  }
+  .preview-wrap.visible { display: flex; }
+  .preview-wrap img, .preview-wrap canvas {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* ── Meta pill ── */
+  .meta-pill {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 4px 10px;
+    font-size: 10px;
+    color: var(--dim);
+  }
+  .meta-pill b { color: var(--text); }
+
+  .meta-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* ── Warning banner ── */
+  .warn-banner {
+    background: rgba(255,71,87,.08);
+    border: 1px solid rgba(255,71,87,.3);
+    border-radius: 3px;
+    padding: 8px 12px;
+    font-size: 11px;
+    color: #ff8a96;
+    display: none;
+  }
+  .warn-banner.visible { display: block; }
+
+  canvas { display: none; }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--dim); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">PIXEL<span>TXT</span></div>
+  <div class="tagline">Image ↔ Pixel Text · 100% client-side · no upload</div>
+</header>
+
+<div class="workspace">
+
+  <!-- ══ PANEL A: Image → TXT ══ -->
+  <div class="panel" id="panelA">
+    <div class="panel-label">Image → Text</div>
+    <p class="panel-sub">Upload any image. Every pixel becomes a coordinate + hex colour.</p>
+
+    <div class="drop-zone" id="dropA">
+      <input type="file" id="fileA" accept="image/*">
+      <span class="drop-icon">🖼</span>
+      <div class="drop-label"><strong>Drop image here</strong> or click to browse<br>PNG · JPG · GIF · BMP · WebP · SVG…</div>
+    </div>
+
+    <div class="warn-banner" id="warnA">
+      ⚠ Large image detected. Conversion may take a while. The tab may appear unresponsive — it will finish.
+    </div>
+
+    <div class="preview-wrap" id="previewA">
+      <img id="previewImgA" src="" alt="preview">
+    </div>
+    <canvas id="canvasA"></canvas>
+
+    <div class="meta-row" id="metaA"></div>
+
+    <div class="status-bar" id="statusA">
+      <span class="ticker" id="tickerA"></span>
+      <div class="progress-track"><div class="progress-fill" id="progA"></div></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="convertABtn" disabled>Convert to .txt</button>
+      <button class="btn btn-secondary" id="downloadABtn" disabled>Download .txt</button>
+      <button class="btn btn-muted" id="clearABtn" disabled>Clear</button>
+    </div>
+
+    <div class="output-wrap">
+      <textarea class="output-box" id="outputA" readonly placeholder="// pixel data will appear here&#10;// (0,0): #rrggbb&#10;// (1,0): #rrggbb&#10;// ..."></textarea>
+    </div>
+  </div>
+
+  <!-- ══ PANEL B: TXT → Image ══ -->
+  <div class="panel" id="panelB">
+    <div class="panel-label">Text → Image</div>
+    <p class="panel-sub">Upload a .txt file made by this tool. It will reconstruct the exact image.</p>
+
+    <div class="drop-zone" id="dropB">
+      <input type="file" id="fileB" accept=".txt,text/plain">
+      <span class="drop-icon">📄</span>
+      <div class="drop-label"><strong>Drop .txt here</strong> or click to browse<br>Must follow PIXELTXT format</div>
+    </div>
+
+    <div class="warn-banner" id="warnB">
+      ⚠ Large file detected. Reconstruction may take a while.
+    </div>
+
+    <div class="meta-row" id="metaB"></div>
+
+    <div class="status-bar" id="statusB">
+      <span class="ticker" id="tickerB"></span>
+      <div class="progress-track"><div class="progress-fill" id="progB"></div></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="convertBBtn" disabled>Reconstruct Image</button>
+      <button class="btn btn-secondary" id="downloadBBtn" disabled>Download PNG</button>
+      <button class="btn btn-muted" id="clearBBtn" disabled>Clear</button>
+    </div>
+
+    <div class="preview-wrap" id="previewB">
+      <canvas id="canvasB"></canvas>
+    </div>
+
+    <div class="output-wrap">
+      <textarea class="output-box" id="outputB" placeholder="// paste PIXELTXT data here, or upload a .txt file&#10;// format expected:&#10;// (x,y): #rrggbb&#10;// or with alpha: (x,y): #rrggbbaa"></textarea>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════
+   PIXELTXT — pure client-side pixel ↔ text converter
+   Format: (x,y): #rrggbb[aa]   x=col, y=row
+   ════════════════════════════════════════════════════ */
+
+const CHUNK = 50000; // pixels per async tick to keep UI alive
+
+// ── helpers ──────────────────────────────────────────
+function toHex2(n) { return n.toString(16).padStart(2, '0'); }
+function clamp255(n) { return Math.max(0, Math.min(255, n)); }
+
+function yieldFrame() {
+  return new Promise(r => setTimeout(r, 0));
+}
+
+function setProgress(fillEl, pct, state) {
+  fillEl.style.width = pct + '%';
+  fillEl.className = 'progress-fill' + (state ? ' ' + state : '');
+}
+
+function makePill(label, value) {
+  const d = document.createElement('div');
+  d.className = 'meta-pill';
+  d.innerHTML = `${label} <b>${value}</b>`;
+  return d;
+}
+
+function formatNum(n) { return n.toLocaleString(); }
+
+// ══════════════════════════════════════════════════════
+// PANEL A  ·  Image → Text
+// ══════════════════════════════════════════════════════
+const fileA      = document.getElementById('fileA');
+const dropA      = document.getElementById('dropA');
+const previewA   = document.getElementById('previewA');
+const previewImgA= document.getElementById('previewImgA');
+const canvasA    = document.getElementById('canvasA');
+const metaA      = document.getElementById('metaA');
+const tickerA    = document.getElementById('tickerA');
+const progA      = document.getElementById('progA');
+const outputA    = document.getElementById('outputA');
+const warnA      = document.getElementById('warnA');
+const convertABtn= document.getElementById('convertABtn');
+const downloadABtn=document.getElementById('downloadABtn');
+const clearABtn  = document.getElementById('clearABtn');
+
+let imgDataA = null;
+let imgW = 0, imgH = 0;
+let txtResultA = '';
+
+// drag & drop
+dropA.addEventListener('dragover', e => { e.preventDefault(); dropA.classList.add('drag-over'); });
+dropA.addEventListener('dragleave', () => dropA.classList.remove('drag-over'));
+dropA.addEventListener('drop', e => {
+  e.preventDefault();
+  dropA.classList.remove('drag-over');
+  const f = e.dataTransfer.files[0];
+  if (f) loadImageFile(f);
+});
+
+fileA.addEventListener('change', () => {
+  if (fileA.files[0]) loadImageFile(fileA.files[0]);
+  fileA.value = '';
+});
+
+function loadImageFile(file) {
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+  img.onload = () => {
+    imgW = img.naturalWidth;
+    imgH = img.naturalHeight;
+    const total = imgW * imgH;
+
+    // draw to canvas to extract pixel data
+    canvasA.width = imgW;
+    canvasA.height = imgH;
+    const ctx = canvasA.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    imgDataA = ctx.getImageData(0, 0, imgW, imgH).data;
+
+    // preview
+    previewImgA.src = url;
+    previewA.classList.add('visible');
+
+    // meta
+    metaA.innerHTML = '';
+    metaA.appendChild(makePill('W', imgW + 'px'));
+    metaA.appendChild(makePill('H', imgH + 'px'));
+    metaA.appendChild(makePill('Pixels', formatNum(total)));
+
+    // warn for big images
+    warnA.classList.toggle('visible', total > 500000);
+
+    tickerA.textContent = 'Ready · ' + formatNum(total) + ' px';
+    setProgress(progA, 0, '');
+    outputA.value = '';
+    txtResultA = '';
+    convertABtn.disabled = false;
+    downloadABtn.disabled = true;
+    clearABtn.disabled = false;
+  };
+  img.onerror = () => {
+    tickerA.textContent = 'Error: could not read image';
+    setProgress(progA, 100, 'err');
+  };
+  img.src = url;
+}
+
+convertABtn.addEventListener('click', async () => {
+  if (!imgDataA) return;
+  convertABtn.disabled = true;
+  downloadABtn.disabled = true;
+  outputA.value = '';
+  txtResultA = '';
+
+  const total = imgW * imgH;
+  const lines = [];
+  let done = 0;
+
+  setProgress(progA, 0, '');
+  tickerA.textContent = '0 / ' + formatNum(total);
+
+  for (let y = 0; y < imgH; y++) {
+    for (let x = 0; x < imgW; x++) {
+      const i = (y * imgW + x) * 4;
+      const r = imgDataA[i];
+      const g = imgDataA[i+1];
+      const b = imgDataA[i+2];
+      const a = imgDataA[i+3];
+      const hex = '#' + toHex2(r) + toHex2(g) + toHex2(b) + (a < 255 ? toHex2(a) : '');
+      lines.push(`(${x},${y}): ${hex}`);
+      done++;
+    }
+    // yield every CHUNK rows to keep page responsive
+    if (done % CHUNK < imgW) {
+      const pct = (done / total * 100).toFixed(1);
+      setProgress(progA, pct, '');
+      tickerA.textContent = formatNum(done) + ' / ' + formatNum(total);
+      await yieldFrame();
+    }
+  }
+
+  txtResultA = lines.join('\n');
+  outputA.value = txtResultA;
+  setProgress(progA, 100, 'done');
+  tickerA.textContent = '✓ ' + formatNum(total) + ' pixels encoded';
+  convertABtn.disabled = false;
+  downloadABtn.disabled = false;
+});
+
+downloadABtn.addEventListener('click', () => {
+  if (!txtResultA) return;
+  const blob = new Blob([txtResultA], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'pixels.txt';
+  a.click();
+});
+
+clearABtn.addEventListener('click', () => {
+  imgDataA = null; imgW = 0; imgH = 0; txtResultA = '';
+  previewA.classList.remove('visible');
+  previewImgA.src = '';
+  metaA.innerHTML = '';
+  outputA.value = '';
+  tickerA.textContent = '';
+  setProgress(progA, 0, '');
+  warnA.classList.remove('visible');
+  convertABtn.disabled = true;
+  downloadABtn.disabled = true;
+  clearABtn.disabled = true;
+});
+
+
+// ══════════════════════════════════════════════════════
+// PANEL B  ·  Text → Image
+// ══════════════════════════════════════════════════════
+const fileB       = document.getElementById('fileB');
+const dropB       = document.getElementById('dropB');
+const previewB    = document.getElementById('previewB');
+const canvasB     = document.getElementById('canvasB');
+const metaB       = document.getElementById('metaB');
+const tickerB     = document.getElementById('tickerB');
+const progB       = document.getElementById('progB');
+const outputB     = document.getElementById('outputB');
+const warnB       = document.getElementById('warnB');
+const convertBBtn = document.getElementById('convertBBtn');
+const downloadBBtn= document.getElementById('downloadBBtn');
+const clearBBtn   = document.getElementById('clearBBtn');
+
+dropB.addEventListener('dragover', e => { e.preventDefault(); dropB.classList.add('drag-over'); });
+dropB.addEventListener('dragleave', () => dropB.classList.remove('drag-over'));
+dropB.addEventListener('drop', e => {
+  e.preventDefault();
+  dropB.classList.remove('drag-over');
+  const f = e.dataTransfer.files[0];
+  if (f) loadTxtFile(f);
+});
+
+fileB.addEventListener('change', () => {
+  if (fileB.files[0]) loadTxtFile(fileB.files[0]);
+  fileB.value = '';
+});
+
+function loadTxtFile(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    outputB.value = e.target.result;
+    const lines = e.target.result.split('\n').filter(l => l.trim() && !l.startsWith('//'));
+    warnB.classList.toggle('visible', lines.length > 500000);
+    tickerB.textContent = formatNum(lines.length) + ' lines loaded';
+    setProgress(progB, 0, '');
+    previewB.classList.remove('visible');
+    metaB.innerHTML = '';
+    convertBBtn.disabled = false;
+    downloadBBtn.disabled = true;
+    clearBBtn.disabled = false;
+  };
+  reader.readAsText(file);
+}
+
+// Allow typing/pasting into outputB to enable convert
+outputB.addEventListener('input', () => {
+  const hasContent = outputB.value.trim().length > 0;
+  convertBBtn.disabled = !hasContent;
+  clearBBtn.disabled = !hasContent;
+  downloadBBtn.disabled = true;
+  previewB.classList.remove('visible');
+});
+
+// Parse a hex colour string → {r,g,b,a}
+// Accepts: #rgb  #rgba  #rrggbb  #rrggbbaa
+function parseHex(hex) {
+  hex = hex.trim().replace(/^#/, '');
+  let r,g,b,a=255;
+  if (hex.length === 3) {
+    r = parseInt(hex[0]+hex[0],16);
+    g = parseInt(hex[1]+hex[1],16);
+    b = parseInt(hex[2]+hex[2],16);
+  } else if (hex.length === 4) {
+    r = parseInt(hex[0]+hex[0],16);
+    g = parseInt(hex[1]+hex[1],16);
+    b = parseInt(hex[2]+hex[2],16);
+    a = parseInt(hex[3]+hex[3],16);
+  } else if (hex.length === 6) {
+    r = parseInt(hex.slice(0,2),16);
+    g = parseInt(hex.slice(2,4),16);
+    b = parseInt(hex.slice(4,6),16);
+  } else if (hex.length === 8) {
+    r = parseInt(hex.slice(0,2),16);
+    g = parseInt(hex.slice(2,4),16);
+    b = parseInt(hex.slice(4,6),16);
+    a = parseInt(hex.slice(6,8),16);
+  } else { return null; }
+  if ([r,g,b,a].some(isNaN)) return null;
+  return { r: clamp255(r), g: clamp255(g), b: clamp255(b), a: clamp255(a) };
+}
+
+// Line format:  (x,y): #hex
+// Also tolerates slight whitespace variations
+const LINE_RE = /^\(\s*(\d+)\s*,\s*(\d+)\s*\)\s*:\s*(#[0-9a-fA-F]{3,8})/;
+
+convertBBtn.addEventListener('click', async () => {
+  const raw = outputB.value;
+  if (!raw.trim()) return;
+
+  convertBBtn.disabled = true;
+  downloadBBtn.disabled = true;
+  previewB.classList.remove('visible');
+  metaB.innerHTML = '';
+  setProgress(progB, 0, '');
+  tickerB.textContent = 'Parsing…';
+  await yieldFrame();
+
+  const rawLines = raw.split('\n');
+  const pixels = []; // {x,y,r,g,b,a}
+  let maxX = 0, maxY = 0;
+  let skipped = 0;
+  const total = rawLines.length;
+
+  for (let i = 0; i < rawLines.length; i++) {
+    const line = rawLines[i].trim();
+    if (!line || line.startsWith('//')) { skipped++; continue; }
+
+    const m = LINE_RE.exec(line);
+    if (!m) { skipped++; continue; }
+
+    const x = parseInt(m[1]);
+    const y = parseInt(m[2]);
+    const col = parseHex(m[3]);
+    if (!col) { skipped++; continue; }
+
+    pixels.push({ x, y, ...col });
+    if (x > maxX) maxX = x;
+    if (y > maxY) maxY = y;
+
+    if (i % CHUNK === 0 && i > 0) {
+      setProgress(progB, (i / total * 50).toFixed(1), '');
+      tickerB.textContent = 'Parsing ' + formatNum(i) + ' / ' + formatNum(total);
+      await yieldFrame();
+    }
+  }
+
+  if (pixels.length === 0) {
+    tickerB.textContent = '✗ No valid pixel lines found';
+    setProgress(progB, 100, 'err');
+    convertBBtn.disabled = false;
+    return;
+  }
+
+  const W = maxX + 1;
+  const H = maxY + 1;
+
+  tickerB.textContent = 'Drawing ' + W + '×' + H + '…';
+  setProgress(progB, 50, '');
+  await yieldFrame();
+
+  canvasB.width  = W;
+  canvasB.height = H;
+  const ctx = canvasB.getContext('2d');
+  // default transparent bg
+  ctx.clearRect(0, 0, W, H);
+
+  const imgData = ctx.createImageData(W, H);
+  const d = imgData.data;
+
+  const pTotal = pixels.length;
+  for (let i = 0; i < pTotal; i++) {
+    const { x, y, r, g, b, a } = pixels[i];
+    const idx = (y * W + x) * 4;
+    d[idx]   = r;
+    d[idx+1] = g;
+    d[idx+2] = b;
+    d[idx+3] = a;
+
+    if (i % CHUNK === 0 && i > 0) {
+      setProgress(progB, (50 + i / pTotal * 50).toFixed(1), '');
+      tickerB.textContent = 'Drawing ' + formatNum(i) + ' / ' + formatNum(pTotal);
+      await yieldFrame();
+    }
+  }
+
+  ctx.putImageData(imgData, 0, 0);
+
+  setProgress(progB, 100, 'done');
+  previewB.classList.add('visible');
+  downloadBBtn.disabled = false;
+  convertBBtn.disabled = false;
+
+  metaB.innerHTML = '';
+  metaB.appendChild(makePill('W', W + 'px'));
+  metaB.appendChild(makePill('H', H + 'px'));
+  metaB.appendChild(makePill('Pixels', formatNum(pixels.length)));
+  if (skipped) metaB.appendChild(makePill('Skipped', formatNum(skipped)));
+
+  tickerB.textContent = '✓ ' + W + '×' + H + ' image reconstructed';
+});
+
+downloadBBtn.addEventListener('click', () => {
+  canvasB.toBlob(blob => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'reconstructed.png';
+    a.click();
+  }, 'image/png');
+});
+
+clearBBtn.addEventListener('click', () => {
+  outputB.value = '';
+  previewB.classList.remove('visible');
+  metaB.innerHTML = '';
+  tickerB.textContent = '';
+  setProgress(progB, 0, '');
+  warnB.classList.remove('visible');
+  convertBBtn.disabled = true;
+  downloadBBtn.disabled = true;
+  clearBBtn.disabled = true;
+});
+</script>
+</body>
+</html>
