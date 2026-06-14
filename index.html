@@ -30,7 +30,6 @@
     line-height: 1.6;
   }
 
-  /* ── Header ── */
   header {
     display: flex;
     align-items: center;
@@ -41,7 +40,6 @@
     flex-wrap: wrap;
     gap: 8px;
   }
-
   .logo {
     font-size: 18px;
     font-weight: 700;
@@ -50,43 +48,22 @@
     text-shadow: 0 0 20px rgba(0,255,255,.6);
   }
   .logo span { color: #555; font-weight: 300; }
-
-  .header-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 2px;
-  }
-  .tagline {
-    color: var(--dim);
-    font-size: 10px;
-    letter-spacing: .08em;
-  }
-  .credits {
-    font-size: 10px;
-    color: #555;
-    text-align: right;
-  }
-  .credits a {
-    color: var(--cyan);
-    text-decoration: none;
-    opacity: .8;
-  }
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+  .tagline { color: var(--dim); font-size: 10px; letter-spacing: .08em; }
+  .credits { font-size: 10px; color: #555; text-align: right; }
+  .credits a { color: var(--cyan); text-decoration: none; opacity: .8; }
   .credits a:hover { opacity: 1; text-decoration: underline; }
 
-  /* ── Layout ── */
   .workspace {
     display: grid;
     grid-template-columns: 1fr 1fr;
     min-height: calc(100vh - 64px);
   }
-
   @media (max-width: 720px) {
     .workspace { grid-template-columns: 1fr; }
     .header-right { align-items: flex-start; }
   }
 
-  /* ── Panels ── */
   .panel {
     display: flex;
     flex-direction: column;
@@ -107,20 +84,9 @@
     gap: 8px;
     text-shadow: 0 0 10px rgba(0,255,255,.4);
   }
-  .panel-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+  .panel-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .panel-sub { font-size: 11px; color: var(--dim); margin-top: -6px; }
 
-  .panel-sub {
-    font-size: 11px;
-    color: var(--dim);
-    margin-top: -6px;
-  }
-
-  /* ── Drop zone ── */
   .drop-zone {
     border: 1px dashed var(--muted);
     border-radius: 2px;
@@ -131,61 +97,22 @@
     position: relative;
     flex-shrink: 0;
   }
-  .drop-zone:hover, .drop-zone.drag-over {
-    border-color: var(--cyan);
-    background: rgba(0,255,255,.05);
-  }
-  .drop-zone input[type="file"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-  }
+  .drop-zone:hover, .drop-zone.drag-over { border-color: var(--cyan); background: rgba(0,255,255,.05); }
+  .drop-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
   .drop-icon { font-size: 26px; margin-bottom: 8px; display: block; }
   .drop-label { color: var(--dim); font-size: 11px; }
   .drop-label strong { color: var(--text); }
 
-  /* ── Progress / status ── */
-  .status-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 11px;
-    color: var(--dim);
-    min-height: 18px;
-  }
-  .status-bar .ticker {
-    color: var(--cyan);
-    font-weight: 600;
-    min-width: 130px;
-    text-shadow: 0 0 8px rgba(0,255,255,.35);
-  }
-  .progress-track {
-    flex: 1;
-    height: 2px;
-    background: #1a1a1a;
-    border-radius: 1px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--cyan);
-    width: 0%;
-    transition: width .08s linear;
-    box-shadow: 0 0 8px var(--cyan);
-  }
+  .status-bar { display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--dim); min-height: 18px; }
+  .status-bar .ticker { color: var(--cyan); font-weight: 600; min-width: 160px; text-shadow: 0 0 8px rgba(0,255,255,.35); }
+  .progress-track { flex: 1; height: 2px; background: #1a1a1a; border-radius: 1px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--cyan); width: 0%; transition: width .08s linear; box-shadow: 0 0 8px var(--cyan); }
   .progress-fill.done { background: var(--green); box-shadow: 0 0 8px var(--green); }
   .progress-fill.err  { background: var(--error); box-shadow: none; }
 
-  /* ── Output area ── */
   .output-wrap { flex: 1; min-height: 180px; }
-
   .output-box {
-    width: 100%;
-    height: 100%;
-    min-height: 180px;
+    width: 100%; height: 100%; min-height: 180px;
     background: #050505;
     border: 1px solid var(--border);
     border-radius: 2px;
@@ -202,9 +129,7 @@
   }
   .output-box::placeholder { color: #333; }
 
-  /* ── Buttons ── */
   .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
-
   .btn {
     padding: 7px 16px;
     font-family: inherit;
@@ -219,23 +144,13 @@
     background: transparent;
   }
   .btn:disabled { opacity: .3; cursor: not-allowed; }
-
   .btn-primary { color: var(--cyan); border-color: var(--cyan); }
-  .btn-primary:not(:disabled):hover {
-    background: rgba(0,255,255,.12);
-    box-shadow: 0 0 14px rgba(0,255,255,.3);
-  }
-
+  .btn-primary:not(:disabled):hover { background: rgba(0,255,255,.12); box-shadow: 0 0 14px rgba(0,255,255,.3); }
   .btn-secondary { color: var(--green); border-color: var(--green); }
-  .btn-secondary:not(:disabled):hover {
-    background: rgba(0,255,65,.1);
-    box-shadow: 0 0 12px rgba(0,255,65,.25);
-  }
-
+  .btn-secondary:not(:disabled):hover { background: rgba(0,255,65,.1); box-shadow: 0 0 12px rgba(0,255,65,.25); }
   .btn-muted { color: var(--dim); border-color: var(--muted); }
   .btn-muted:not(:disabled):hover { color: var(--text); border-color: var(--dim); }
 
-  /* ── Image preview ── */
   .preview-wrap {
     border: 1px solid var(--border);
     border-radius: 2px;
@@ -248,43 +163,29 @@
   }
   .preview-wrap.visible { display: flex; }
   .preview-wrap img, .preview-wrap canvas {
-    max-width: 100%;
-    max-height: 190px;
-    object-fit: contain;
-    display: block;
+    max-width: 100%; max-height: 190px;
+    object-fit: contain; display: block;
     image-rendering: pixelated;
   }
 
-  /* ── Meta pills ── */
   .meta-pill {
-    display: inline-flex;
-    gap: 5px;
-    align-items: center;
-    background: #111;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    padding: 3px 9px;
-    font-size: 10px;
-    color: var(--dim);
+    display: inline-flex; gap: 5px; align-items: center;
+    background: #111; border: 1px solid var(--border);
+    border-radius: 2px; padding: 3px 9px;
+    font-size: 10px; color: var(--dim);
   }
   .meta-pill b { color: var(--text); }
   .meta-row { display: flex; gap: 6px; flex-wrap: wrap; }
 
-  /* ── Warning banner ── */
   .warn-banner {
     background: rgba(255,51,51,.08);
     border: 1px solid rgba(255,51,51,.35);
-    border-radius: 2px;
-    padding: 7px 12px;
-    font-size: 11px;
-    color: #ff8080;
-    display: none;
+    border-radius: 2px; padding: 7px 12px;
+    font-size: 11px; color: #ff8080; display: none;
   }
   .warn-banner.visible { display: block; }
 
   canvas { display: none; }
-
-  /* ── Scrollbar ── */
   ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
@@ -296,7 +197,7 @@
 <header>
   <div class="logo">PIXEL<span>TXT</span></div>
   <div class="header-right">
-    <div class="tagline">Image ↔ Pixel Text &nbsp;·&nbsp; 100% client-side &nbsp;·&nbsp; no upload</div>
+    <div class="tagline">Image ↔ Pixel Text &nbsp;·&nbsp; 100% client-side &nbsp;·&nbsp; no upload &nbsp;·&nbsp; RLE + palette compressed</div>
     <div class="credits">
       Made by Royal V- · inspired by a joke made by Kara &nbsp;|&nbsp;
       <a href="https://discord.gg/respawnraccoon" target="_blank" rel="noopener">Join the server ↗</a>
@@ -306,10 +207,10 @@
 
 <div class="workspace">
 
-  <!-- ══ PANEL A: Image → TXT ══ -->
-  <div class="panel" id="panelA">
+  <!-- PANEL A: Image → TXT -->
+  <div class="panel">
     <div class="panel-label">Image → Text</div>
-    <p class="panel-sub">Upload any image. Every pixel becomes a coordinate + hex colour.</p>
+    <p class="panel-sub">Uploads any image. Output is RLE + palette compressed — tiny file, perfect reconstruction.</p>
 
     <div class="drop-zone" id="dropA">
       <input type="file" id="fileA" accept="image/*">
@@ -317,9 +218,7 @@
       <div class="drop-label"><strong>Drop image here</strong> or click to browse<br>PNG · JPG · GIF · BMP · WebP · SVG…</div>
     </div>
 
-    <div class="warn-banner" id="warnA">
-      ⚠ Large image detected. Structuring may take a while. The tab may appear unresponsive — it will finish.
-    </div>
+    <div class="warn-banner" id="warnA">⚠ Very large image. Structuring may take a moment — the page will stay responsive.</div>
 
     <div class="preview-wrap" id="previewA">
       <img id="previewImgA" src="" alt="preview">
@@ -328,48 +227,47 @@
 
     <div class="meta-row" id="metaA"></div>
 
-    <div class="status-bar" id="statusA">
+    <div class="status-bar">
       <span class="ticker" id="tickerA"></span>
       <div class="progress-track"><div class="progress-fill" id="progA"></div></div>
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-primary" id="convertABtn" disabled>Structure to .txt</button>
+      <button class="btn btn-primary"   id="convertABtn"  disabled>Structure to .txt</button>
       <button class="btn btn-secondary" id="downloadABtn" disabled>Download .txt</button>
-      <button class="btn btn-muted" id="clearABtn" disabled>Clear</button>
+      <button class="btn btn-muted"     id="clearABtn"    disabled>Clear</button>
     </div>
 
     <div class="output-wrap">
-      <textarea class="output-box" id="outputA" readonly placeholder="// structured pixel data will appear here&#10;// (0,0): #rrggbb&#10;// (1,0): #rrggbb&#10;// ..."></textarea>
+      <textarea class="output-box" id="outputA" readonly
+        placeholder="// structured pixel data will appear here&#10;// PIXELTXT v2 — RLE + palette format&#10;// much smaller than the original image"></textarea>
     </div>
   </div>
 
-  <!-- ══ PANEL B: TXT → Image ══ -->
-  <div class="panel" id="panelB">
+  <!-- PANEL B: TXT → Image -->
+  <div class="panel">
     <div class="panel-label">Text → Image</div>
-    <p class="panel-sub">Upload a .txt file made by this tool. It will restructure the exact image.</p>
+    <p class="panel-sub">Upload a .txt made by this tool. Reconstructs the exact original image.</p>
 
     <div class="drop-zone" id="dropB">
       <input type="file" id="fileB" accept=".txt,text/plain">
       <span class="drop-icon">📄</span>
-      <div class="drop-label"><strong>Drop .txt here</strong> or click to browse<br>Must follow PIXELTXT format</div>
+      <div class="drop-label"><strong>Drop .txt here</strong> or click to browse<br>PIXELTXT v2 or legacy (x,y): #hex format</div>
     </div>
 
-    <div class="warn-banner" id="warnB">
-      ⚠ Large file detected. Restructuring may take a while.
-    </div>
+    <div class="warn-banner" id="warnB">⚠ Large file. Restructuring may take a moment.</div>
 
     <div class="meta-row" id="metaB"></div>
 
-    <div class="status-bar" id="statusB">
+    <div class="status-bar">
       <span class="ticker" id="tickerB"></span>
       <div class="progress-track"><div class="progress-fill" id="progB"></div></div>
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-primary" id="convertBBtn" disabled>Restructure to Image</button>
+      <button class="btn btn-primary"   id="convertBBtn"  disabled>Restructure to Image</button>
       <button class="btn btn-secondary" id="downloadBBtn" disabled>Download PNG</button>
-      <button class="btn btn-muted" id="clearBBtn" disabled>Clear</button>
+      <button class="btn btn-muted"     id="clearBBtn"    disabled>Clear</button>
     </div>
 
     <div class="preview-wrap" id="previewB">
@@ -377,53 +275,94 @@
     </div>
 
     <div class="output-wrap">
-      <textarea class="output-box" id="outputB" placeholder="// paste PIXELTXT data here, or upload a .txt file&#10;// format expected:&#10;// (x,y): #rrggbb&#10;// or with alpha: (x,y): #rrggbbaa"></textarea>
+      <textarea class="output-box" id="outputB"
+        placeholder="// paste PIXELTXT data here, or upload a .txt file"></textarea>
     </div>
   </div>
 
 </div>
 
 <script>
-/* ════════════════════════════════════════════════════════
-   PIXELTXT — pure client-side pixel ↔ text converter
-   Format: (x,y): #rrggbb[aa]   x=col, y=row, origin top-left
+/* ═══════════════════════════════════════════════════════════════
+   PIXELTXT v2  —  RLE + palette compressed pixel ↔ image codec
+   ───────────────────────────────────────────────────────────────
+   FORMAT (v2):
+     PIXELTXT v2
+     SIZE WxH
+     PALETTE n
+     #rrggbb[aa]         ← one colour per line (index 0,1,2…)
+     DATA
+     count:palIdx[,count:palIdx…]  ← RLE runs per row, row by row
+     END
 
-   Perf strategy:
-   ▸ Image→Text: pre-built 256-entry hex lookup table, output
-     written in large string chunks via Blob rather than
-     array-of-strings join, offscreen canvas for pixel read.
-   ▸ Text→Image: manual char-by-char parser (no regex per line),
-     Uint8ClampedArray written directly, single putImageData.
-   ▸ Both: 200ms-interval async yields instead of per-row yields
-     to maximise throughput while keeping UI alive.
-   ════════════════════════════════════════════════════════ */
+   Compression strategy:
+   1. Palette dedup  — each unique RGBA stored once; body uses index
+   2. RLE            — consecutive same-colour pixels → count:idx
+   3. Both together  give 10-100× smaller files for typical images
 
-// ── Hex lookup table (0-255 → "00"-"ff") ─────────────────
+   The decoder also handles the legacy (x,y): #hex format.
+   ═══════════════════════════════════════════════════════════════ */
+
 const HEX = new Array(256);
-for (let i = 0; i < 256; i++) HEX[i] = i.toString(16).padStart(2, '0');
+for (let i = 0; i < 256; i++) HEX[i] = i.toString(16).padStart(2,'0');
 
-const YIELD_MS  = 200; // ms between async yields
-const CHUNK_TXT = 1_000_000; // chars per Blob chunk
+const YIELD_MS = 150;
 
-function sleep() { return new Promise(r => setTimeout(r, 0)); }
+const sleep = () => new Promise(r => setTimeout(r, 0));
+
+function tick() { return performance.now(); }
 
 function setProgress(el, pct, state) {
   el.style.width = pct + '%';
   el.className = 'progress-fill' + (state ? ' ' + state : '');
 }
 
-function makePill(label, value) {
+function pill(label, val) {
   const d = document.createElement('div');
   d.className = 'meta-pill';
-  d.innerHTML = `${label} <b>${value}</b>`;
+  d.innerHTML = `${label} <b>${val}</b>`;
   return d;
 }
 
 function fmt(n) { return n.toLocaleString(); }
 
-// ══════════════════════════════════════════════════════════
-// PANEL A · Image → Text
-// ══════════════════════════════════════════════════════════
+function fmtBytes(n) {
+  if (n < 1024) return n + ' B';
+  if (n < 1048576) return (n/1024).toFixed(1) + ' KB';
+  return (n/1048576).toFixed(2) + ' MB';
+}
+
+// ── hex nibble lookup ────────────────────────────────────────
+function hexNib(c) {
+  if (c >= 48 && c <= 57)  return c - 48;
+  if (c >= 97 && c <= 102) return c - 87;
+  if (c >= 65 && c <= 70)  return c - 55;
+  return -1;
+}
+
+// Parse "#rrggbb" or "#rrggbbaa" → packed Uint32 ABGR (canvas byte order)
+// Returns -1 on failure.
+function parseHexColor(s, start) {
+  // s[start] should be '#'
+  const n0=hexNib(s.charCodeAt(start+1)), n1=hexNib(s.charCodeAt(start+2)),
+        n2=hexNib(s.charCodeAt(start+3)), n3=hexNib(s.charCodeAt(start+4)),
+        n4=hexNib(s.charCodeAt(start+5)), n5=hexNib(s.charCodeAt(start+6));
+  if (n0<0||n1<0||n2<0||n3<0||n4<0||n5<0) return -1;
+  const r=(n0<<4)|n1, g=(n2<<4)|n3, b=(n4<<4)|n5;
+  let a=255;
+  if (s.charCodeAt(start+7)===10 || s.charCodeAt(start+7)===13 ||
+      s.charCodeAt(start+7)===32  || start+7>=s.length) {
+    // 6-digit
+  } else {
+    const a0=hexNib(s.charCodeAt(start+7)), a1=hexNib(s.charCodeAt(start+8));
+    if (a0>=0 && a1>=0) a=(a0<<4)|a1;
+  }
+  return (a<<24)|(b<<16)|(g<<8)|r; // ABGR little-endian for Uint32Array view
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PANEL A  —  Image → Text (compress)
+// ═══════════════════════════════════════════════════════════════
 const fileA       = document.getElementById('fileA');
 const dropA       = document.getElementById('dropA');
 const previewA    = document.getElementById('previewA');
@@ -438,37 +377,38 @@ const convertABtn = document.getElementById('convertABtn');
 const downloadABtn= document.getElementById('downloadABtn');
 const clearABtn   = document.getElementById('clearABtn');
 
-let imgDataA = null, imgW = 0, imgH = 0;
-let blobUrlA = null; // the downloadable blob URL
+let imgPixels = null; // Uint32Array view of pixel data (ABGR packed)
+let imgW = 0, imgH = 0;
+let blobUrlA = null;
 
-dropA.addEventListener('dragover', e => { e.preventDefault(); dropA.classList.add('drag-over'); });
-dropA.addEventListener('dragleave', () => dropA.classList.remove('drag-over'));
-dropA.addEventListener('drop', e => { e.preventDefault(); dropA.classList.remove('drag-over'); const f = e.dataTransfer.files[0]; if (f) loadImageFile(f); });
-fileA.addEventListener('change', () => { if (fileA.files[0]) loadImageFile(fileA.files[0]); fileA.value = ''; });
+dropA.addEventListener('dragover', e=>{e.preventDefault();dropA.classList.add('drag-over');});
+dropA.addEventListener('dragleave', ()=>dropA.classList.remove('drag-over'));
+dropA.addEventListener('drop', e=>{e.preventDefault();dropA.classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f)loadImg(f);});
+fileA.addEventListener('change', ()=>{if(fileA.files[0])loadImg(fileA.files[0]);fileA.value='';});
 
-function loadImageFile(file) {
+function loadImg(file) {
   const url = URL.createObjectURL(file);
   const img = new Image();
   img.onload = () => {
-    imgW = img.naturalWidth;
-    imgH = img.naturalHeight;
-    const total = imgW * imgH;
-    canvasA.width = imgW;
-    canvasA.height = imgH;
-    const ctx = canvasA.getContext('2d', { willReadFrequently: true });
+    imgW = img.naturalWidth; imgH = img.naturalHeight;
+    canvasA.width = imgW; canvasA.height = imgH;
+    const ctx = canvasA.getContext('2d', {willReadFrequently: true});
     ctx.drawImage(img, 0, 0);
-    imgDataA = ctx.getImageData(0, 0, imgW, imgH).data;
+    const raw = ctx.getImageData(0, 0, imgW, imgH);
+    // Uint32Array lets us compare full RGBA in one operation
+    imgPixels = new Uint32Array(raw.data.buffer);
 
     previewImgA.src = url;
     previewA.classList.add('visible');
 
+    const total = imgW * imgH;
     metaA.innerHTML = '';
-    metaA.appendChild(makePill('W', imgW + 'px'));
-    metaA.appendChild(makePill('H', imgH + 'px'));
-    metaA.appendChild(makePill('Pixels', fmt(total)));
+    metaA.appendChild(pill('W', imgW+'px'));
+    metaA.appendChild(pill('H', imgH+'px'));
+    metaA.appendChild(pill('Pixels', fmt(total)));
 
-    warnA.classList.toggle('visible', total > 500_000);
-    tickerA.textContent = 'Ready · ' + fmt(total) + ' px';
+    warnA.classList.toggle('visible', total > 2_000_000);
+    tickerA.textContent = 'Ready · '+fmt(total)+' px';
     setProgress(progA, 0, '');
     outputA.value = '';
     if (blobUrlA) { URL.revokeObjectURL(blobUrlA); blobUrlA = null; }
@@ -476,77 +416,143 @@ function loadImageFile(file) {
     downloadABtn.disabled = true;
     clearABtn.disabled = false;
   };
-  img.onerror = () => { tickerA.textContent = '✗ Could not read image'; setProgress(progA, 100, 'err'); };
+  img.onerror = ()=>{ tickerA.textContent='✗ Could not read image'; setProgress(progA,100,'err'); };
   img.src = url;
 }
 
 convertABtn.addEventListener('click', async () => {
-  if (!imgDataA) return;
+  if (!imgPixels) return;
   convertABtn.disabled = true;
   downloadABtn.disabled = true;
   if (blobUrlA) { URL.revokeObjectURL(blobUrlA); blobUrlA = null; }
   outputA.value = '';
 
-  const total = imgW * imgH;
-  const data  = imgDataA;
-  const W     = imgW;
+  const W = imgW, H = imgH, px = imgPixels;
+  const total = W * H;
+
   setProgress(progA, 0, '');
-  tickerA.textContent = 'Structuring…';
+  tickerA.textContent = 'Building palette…';
+  await sleep();
 
-  // Build output in string chunks, periodically yield to keep UI alive
-  // We accumulate chars then push to blobParts to avoid one giant string
-  const blobParts = [];
-  let buf = '';
-  let lastYield = performance.now();
+  // ── Pass 1: build palette map (packed pixel → index) ────────
+  // Use a Map; key = Uint32 pixel value.
+  const palMap = new Map();   // pixel32 → palIdx
+  const palArr = [];          // palIdx  → pixel32
 
-  for (let idx = 0, px = 0; px < total; px++, idx += 4) {
-    const x = px % W;
-    const y = (px - x) / W;
-    const r = data[idx], g = data[idx+1], b = data[idx+2], a = data[idx+3];
-    buf += '(' + x + ',' + y + '): #' + HEX[r] + HEX[g] + HEX[b] + (a < 255 ? HEX[a] : '') + '\n';
-
-    // flush buffer to blobParts when large enough
-    if (buf.length >= CHUNK_TXT) {
-      blobParts.push(buf);
-      buf = '';
+  let t = tick();
+  for (let i = 0; i < total; i++) {
+    const v = px[i];
+    if (!palMap.has(v)) {
+      palMap.set(v, palArr.length);
+      palArr.push(v);
     }
-
-    const now = performance.now();
-    if (now - lastYield >= YIELD_MS) {
-      const pct = (px / total * 100).toFixed(1);
-      setProgress(progA, pct, '');
-      tickerA.textContent = fmt(px) + ' / ' + fmt(total);
-      await sleep();
-      lastYield = performance.now();
+    if (performance.now() - t >= YIELD_MS) {
+      setProgress(progA, (i/total*30).toFixed(1), '');
+      tickerA.textContent = 'Palette: '+fmt(palArr.length)+' colours…';
+      await sleep(); t = tick();
     }
   }
 
-  if (buf.length) blobParts.push(buf);
+  const palSize = palArr.length;
+  setProgress(progA, 30, '');
+  tickerA.textContent = 'RLE encoding…';
+  await sleep();
 
-  const blob = new Blob(blobParts, { type: 'text/plain' });
+  // ── Pass 2: RLE encode row by row ───────────────────────────
+  // Format per row: "count:idx,count:idx,…"
+  // We build a string per row to keep memory flat.
+  const blobParts = [];
+
+  // Header
+  blobParts.push(`PIXELTXT v2\nSIZE ${W}x${H}\nPALETTE ${palSize}\n`);
+
+  // Palette entries
+  const palLines = [];
+  for (let i = 0; i < palSize; i++) {
+    const v  = palArr[i];
+    const r  = v & 0xff;
+    const g  = (v >> 8)  & 0xff;
+    const b  = (v >> 16) & 0xff;
+    const a  = (v >> 24) & 0xff;
+    palLines.push('#' + HEX[r] + HEX[g] + HEX[b] + (a < 255 ? HEX[a] : ''));
+  }
+  blobParts.push(palLines.join('\n') + '\nDATA\n');
+
+  t = tick();
+  let runBuf = '';
+  let totalRuns = 0;
+
+  for (let y = 0; y < H; y++) {
+    const rowStart = y * W;
+    let rowStr = '';
+    let runLen = 1;
+    let runVal = px[rowStart];
+
+    for (let x = 1; x < W; x++) {
+      const v = px[rowStart + x];
+      if (v === runVal) {
+        runLen++;
+      } else {
+        rowStr += runLen + ':' + palMap.get(runVal) + ',';
+        totalRuns++;
+        runLen = 1;
+        runVal = v;
+      }
+    }
+    rowStr += runLen + ':' + palMap.get(runVal) + '\n';
+    totalRuns++;
+    runBuf += rowStr;
+
+    // Flush string buffer periodically
+    if (runBuf.length > 500_000) {
+      blobParts.push(runBuf);
+      runBuf = '';
+    }
+
+    if (performance.now() - t >= YIELD_MS) {
+      setProgress(progA, (30 + y/H*68).toFixed(1), '');
+      tickerA.textContent = 'Row '+fmt(y)+' / '+fmt(H);
+      await sleep(); t = tick();
+    }
+  }
+
+  if (runBuf) blobParts.push(runBuf);
+  blobParts.push('END\n');
+
+  const blob = new Blob(blobParts, {type:'text/plain'});
   blobUrlA = URL.createObjectURL(blob);
 
-  // Show a preview of the first ~5000 chars so the textarea isn't swamped
-  const previewText = blobParts.slice(0, 1).join('').slice(0, 5000);
-  const overflow = total > 1000;
-  outputA.value = previewText + (overflow ? '\n\n// … ' + fmt(total) + ' lines total — use Download to get the full file' : '');
+  // Size comparison
+  const origBytes = total * 4; // raw RGBA
+  const txtBytes  = blob.size;
+  const ratio     = (origBytes / txtBytes).toFixed(1);
+
+  metaA.innerHTML = '';
+  metaA.appendChild(pill('W', W+'px'));
+  metaA.appendChild(pill('H', H+'px'));
+  metaA.appendChild(pill('Colours', fmt(palSize)));
+  metaA.appendChild(pill('Runs', fmt(totalRuns)));
+  metaA.appendChild(pill('TXT size', fmtBytes(txtBytes)));
+  metaA.appendChild(pill('Ratio', ratio+'× smaller'));
+
+  // Preview first ~4000 chars
+  const preview = blobParts.slice(0,4).join('').slice(0,4000);
+  outputA.value = preview + '\n// … download the full file below';
 
   setProgress(progA, 100, 'done');
-  tickerA.textContent = '✓ ' + fmt(total) + ' pixels structured';
+  tickerA.textContent = '✓ Structured · '+ratio+'× compression';
   convertABtn.disabled = false;
   downloadABtn.disabled = false;
 });
 
-downloadABtn.addEventListener('click', () => {
+downloadABtn.addEventListener('click', ()=>{
   if (!blobUrlA) return;
   const a = document.createElement('a');
-  a.href = blobUrlA;
-  a.download = 'pixels.txt';
-  a.click();
+  a.href = blobUrlA; a.download = 'pixels.txt'; a.click();
 });
 
-clearABtn.addEventListener('click', () => {
-  imgDataA = null; imgW = 0; imgH = 0;
+clearABtn.addEventListener('click', ()=>{
+  imgPixels = null; imgW = 0; imgH = 0;
   if (blobUrlA) { URL.revokeObjectURL(blobUrlA); blobUrlA = null; }
   previewA.classList.remove('visible');
   previewImgA.src = '';
@@ -561,11 +567,10 @@ clearABtn.addEventListener('click', () => {
 });
 
 
-// ══════════════════════════════════════════════════════════
-// PANEL B · Text → Image
-// High-performance manual parser: no regex per line,
-// reads char codes directly for max throughput.
-// ══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+// PANEL B  —  Text → Image (decompress)
+// Handles: PIXELTXT v2  AND  legacy (x,y): #hex
+// ═══════════════════════════════════════════════════════════════
 const fileB       = document.getElementById('fileB');
 const dropB       = document.getElementById('dropB');
 const previewB    = document.getElementById('previewB');
@@ -579,24 +584,21 @@ const convertBBtn = document.getElementById('convertBBtn');
 const downloadBBtn= document.getElementById('downloadBBtn');
 const clearBBtn   = document.getElementById('clearBBtn');
 
-dropB.addEventListener('dragover', e => { e.preventDefault(); dropB.classList.add('drag-over'); });
-dropB.addEventListener('dragleave', () => dropB.classList.remove('drag-over'));
-dropB.addEventListener('drop', e => { e.preventDefault(); dropB.classList.remove('drag-over'); const f = e.dataTransfer.files[0]; if (f) loadTxtFile(f); });
-fileB.addEventListener('change', () => { if (fileB.files[0]) loadTxtFile(fileB.files[0]); fileB.value = ''; });
-
 let rawTxtB = '';
 
-function loadTxtFile(file) {
+dropB.addEventListener('dragover', e=>{e.preventDefault();dropB.classList.add('drag-over');});
+dropB.addEventListener('dragleave', ()=>dropB.classList.remove('drag-over'));
+dropB.addEventListener('drop', e=>{e.preventDefault();dropB.classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f)loadTxt(f);});
+fileB.addEventListener('change', ()=>{if(fileB.files[0])loadTxt(fileB.files[0]);fileB.value='';});
+
+function loadTxt(file) {
   const reader = new FileReader();
   reader.onload = e => {
     rawTxtB = e.target.result;
-    // count non-blank non-comment lines for the UI
-    let count = 0;
-    const lines = rawTxtB.split('\n');
-    for (const l of lines) { const t = l.trim(); if (t && !t.startsWith('//')) count++; }
-    outputB.value = rawTxtB.slice(0, 8000) + (rawTxtB.length > 8000 ? '\n\n// … file truncated in preview' : '');
-    warnB.classList.toggle('visible', count > 500_000);
-    tickerB.textContent = fmt(count) + ' lines loaded';
+    const isV2 = rawTxtB.startsWith('PIXELTXT v2');
+    outputB.value = rawTxtB.slice(0, 6000) + (rawTxtB.length > 6000 ? '\n\n// … truncated in preview' : '');
+    warnB.classList.toggle('visible', rawTxtB.length > 5_000_000);
+    tickerB.textContent = fmtBytes(rawTxtB.length) + ' loaded' + (isV2 ? ' · v2 format' : ' · legacy format');
     setProgress(progB, 0, '');
     previewB.classList.remove('visible');
     metaB.innerHTML = '';
@@ -607,7 +609,7 @@ function loadTxtFile(file) {
   reader.readAsText(file);
 }
 
-outputB.addEventListener('input', () => {
+outputB.addEventListener('input', ()=>{
   rawTxtB = outputB.value;
   const has = rawTxtB.trim().length > 0;
   convertBBtn.disabled = !has;
@@ -616,89 +618,175 @@ outputB.addEventListener('input', () => {
   previewB.classList.remove('visible');
 });
 
-// Fast hex nibble: '0'-'9' → 0-9, 'a'-'f'/'A'-'F' → 10-15, else -1
-function hexNibble(c) {
-  if (c >= 48 && c <= 57)  return c - 48;       // '0'-'9'
-  if (c >= 97 && c <= 102) return c - 87;        // 'a'-'f'
-  if (c >= 65 && c <= 70)  return c - 55;        // 'A'-'F'
-  return -1;
+// ── V2 decoder ───────────────────────────────────────────────
+async function decodeV2(text) {
+  tickerB.textContent = 'Parsing header…';
+  setProgress(progB, 0, '');
+  await sleep();
+
+  const lines = text.split('\n');
+  let li = 1; // skip 'PIXELTXT v2'
+
+  // SIZE WxH
+  const sizeLine = lines[li++].trim();
+  if (!sizeLine.startsWith('SIZE ')) throw new Error('Missing SIZE');
+  const [W, H] = sizeLine.slice(5).split('x').map(Number);
+  if (!W || !H) throw new Error('Bad SIZE');
+
+  // PALETTE n
+  const palLine = lines[li++].trim();
+  if (!palLine.startsWith('PALETTE ')) throw new Error('Missing PALETTE');
+  const palSize = parseInt(palLine.slice(8));
+
+  // Read palette colours into a Uint32Array (ABGR)
+  const palette = new Uint32Array(palSize);
+  for (let i = 0; i < palSize; i++) {
+    const s = lines[li++].trim();
+    if (!s.startsWith('#')) throw new Error('Bad palette entry at '+i);
+    // parse manually
+    const n0=hexNib(s.charCodeAt(1)), n1=hexNib(s.charCodeAt(2)),
+          n2=hexNib(s.charCodeAt(3)), n3=hexNib(s.charCodeAt(4)),
+          n4=hexNib(s.charCodeAt(5)), n5=hexNib(s.charCodeAt(6));
+    const r=(n0<<4)|n1, g=(n2<<4)|n3, b=(n4<<4)|n5;
+    let a=255;
+    if (s.length >= 9) {
+      const a0=hexNib(s.charCodeAt(7)), a1=hexNib(s.charCodeAt(8));
+      if (a0>=0 && a1>=0) a=(a0<<4)|a1;
+    }
+    // store as RGBA bytes in Uint32 (little-endian: R, G, B, A)
+    palette[i] = r | (g<<8) | (b<<16) | (a<<24);
+  }
+
+  // DATA keyword
+  if (lines[li++].trim() !== 'DATA') throw new Error('Missing DATA');
+
+  setProgress(progB, 10, '');
+  tickerB.textContent = 'Decoding '+W+'×'+H+'…';
+  await sleep();
+
+  // Allocate pixel buffer
+  const pixels = new Uint32Array(W * H);
+  let pixPos = 0;
+  const dataLines = H;
+  let t = tick();
+
+  for (let row = 0; row < dataLines; row++) {
+    const line = lines[li++];
+    if (!line || line.trim() === 'END') break;
+
+    // Parse "count:idx,count:idx,…" manually for speed
+    let ci = 0;
+    const ll = line.length;
+    while (ci < ll) {
+      // parse count
+      let count = 0;
+      while (ci < ll && line.charCodeAt(ci) >= 48 && line.charCodeAt(ci) <= 57) {
+        count = count * 10 + (line.charCodeAt(ci) - 48); ci++;
+      }
+      if (line.charCodeAt(ci) !== 58) { ci++; continue; } // ':'
+      ci++;
+      // parse palIdx
+      let idx = 0;
+      while (ci < ll && line.charCodeAt(ci) >= 48 && line.charCodeAt(ci) <= 57) {
+        idx = idx * 10 + (line.charCodeAt(ci) - 48); ci++;
+      }
+      if (line.charCodeAt(ci) === 44) ci++; // ','
+
+      const col = palette[idx];
+      // Fill run
+      const end = pixPos + count;
+      pixels.fill(col, pixPos, end);
+      pixPos = end;
+    }
+
+    if (performance.now() - t >= YIELD_MS) {
+      setProgress(progB, (10 + row/dataLines*85).toFixed(1), '');
+      tickerB.textContent = 'Row '+fmt(row)+' / '+fmt(dataLines);
+      await sleep(); t = tick();
+    }
+  }
+
+  return { W, H, pixels };
 }
 
-// Parse a line of the form (x,y): #hex
-// Returns {x,y,r,g,b,a} or null. Manual char scan, no regex.
-function parseLine(line) {
-  let i = 0;
-  const len = line.length;
+// ── Legacy decoder: (x,y): #hex ──────────────────────────────
+async function decodeLegacy(text) {
+  tickerB.textContent = 'Parsing legacy format…';
+  setProgress(progB, 0, '');
+  await sleep();
 
-  // skip whitespace
-  while (i < len && line.charCodeAt(i) <= 32) i++;
+  const lines = text.split('\n');
+  const total = lines.length;
+  // First pass to find dimensions
+  let maxX = 0, maxY = 0, count = 0;
+  let t = tick();
 
-  // expect '('
-  if (i >= len || line.charCodeAt(i) !== 40) return null; // '('
-  i++;
+  // We store in a flat array indexed by position (determined after we know W/H)
+  // So do two passes: 1) find dims + parse, 2) fill ImageData
+  const parsed = []; // {x,y,r,g,b,a} — but use typed arrays
 
-  // parse x
-  let x = 0, digits = 0;
-  while (i < len) {
-    const c = line.charCodeAt(i);
-    if (c >= 48 && c <= 57) { x = x * 10 + (c - 48); i++; digits++; }
-    else break;
-  }
-  if (!digits) return null;
+  const tmpX = new Int32Array(total);
+  const tmpY = new Int32Array(total);
+  const tmpC = new Uint32Array(total); // packed RGBA
 
-  // skip whitespace, expect ','
-  while (i < len && line.charCodeAt(i) === 32) i++;
-  if (i >= len || line.charCodeAt(i) !== 44) return null; // ','
-  i++;
-
-  // parse y
-  while (i < len && line.charCodeAt(i) === 32) i++;
-  let y = 0; digits = 0;
-  while (i < len) {
-    const c = line.charCodeAt(i);
-    if (c >= 48 && c <= 57) { y = y * 10 + (c - 48); i++; digits++; }
-    else break;
-  }
-  if (!digits) return null;
-
-  // expect ')'
-  while (i < len && line.charCodeAt(i) === 32) i++;
-  if (i >= len || line.charCodeAt(i) !== 41) return null; // ')'
-  i++;
-
-  // skip whitespace, expect ':'
-  while (i < len && line.charCodeAt(i) === 32) i++;
-  if (i >= len || line.charCodeAt(i) !== 58) return null; // ':'
-  i++;
-
-  // skip whitespace, expect '#'
-  while (i < len && line.charCodeAt(i) === 32) i++;
-  if (i >= len || line.charCodeAt(i) !== 35) return null; // '#'
-  i++;
-
-  // read up to 8 hex nibbles
-  const nibs = [];
-  while (nibs.length < 8 && i < len) {
-    const n = hexNibble(line.charCodeAt(i));
-    if (n < 0) break;
-    nibs.push(n);
-    i++;
-  }
-
-  let r, g, b, a = 255;
-  if (nibs.length === 3) {
-    r = nibs[0]*17; g = nibs[1]*17; b = nibs[2]*17;
-  } else if (nibs.length === 4) {
-    r = nibs[0]*17; g = nibs[1]*17; b = nibs[2]*17; a = nibs[3]*17;
-  } else if (nibs.length === 6) {
-    r = nibs[0]*16+nibs[1]; g = nibs[2]*16+nibs[3]; b = nibs[4]*16+nibs[5];
-  } else if (nibs.length === 8) {
-    r = nibs[0]*16+nibs[1]; g = nibs[2]*16+nibs[3]; b = nibs[4]*16+nibs[5]; a = nibs[6]*16+nibs[7];
-  } else {
-    return null;
+  for (let i = 0; i < total; i++) {
+    const line = lines[i];
+    let ci = 0;
+    const ll = line.length;
+    // skip ws
+    while (ci<ll && line.charCodeAt(ci)<=32) ci++;
+    if (ci>=ll || line.charCodeAt(ci)!==40) continue; // '('
+    ci++;
+    let x=0,digits=0;
+    while(ci<ll){const c=line.charCodeAt(ci);if(c>=48&&c<=57){x=x*10+(c-48);ci++;digits++;}else break;}
+    if(!digits) continue;
+    while(ci<ll&&line.charCodeAt(ci)===32)ci++;
+    if(ci>=ll||line.charCodeAt(ci)!==44){continue;}ci++;
+    while(ci<ll&&line.charCodeAt(ci)===32)ci++;
+    let y=0;digits=0;
+    while(ci<ll){const c=line.charCodeAt(ci);if(c>=48&&c<=57){y=y*10+(c-48);ci++;digits++;}else break;}
+    if(!digits)continue;
+    while(ci<ll&&line.charCodeAt(ci)===32)ci++;
+    if(ci>=ll||line.charCodeAt(ci)!==41)continue;ci++;
+    while(ci<ll&&line.charCodeAt(ci)===32)ci++;
+    if(ci>=ll||line.charCodeAt(ci)!==58)continue;ci++;
+    while(ci<ll&&line.charCodeAt(ci)===32)ci++;
+    if(ci>=ll||line.charCodeAt(ci)!==35)continue;ci++;
+    // parse hex
+    const n0=hexNib(line.charCodeAt(ci)),n1=hexNib(line.charCodeAt(ci+1)),
+          n2=hexNib(line.charCodeAt(ci+2)),n3=hexNib(line.charCodeAt(ci+3)),
+          n4=hexNib(line.charCodeAt(ci+4)),n5=hexNib(line.charCodeAt(ci+5));
+    if(n0<0||n1<0||n2<0||n3<0||n4<0||n5<0)continue;
+    const r=(n0<<4)|n1,g=(n2<<4)|n3,b=(n4<<4)|n5;
+    let a=255;
+    const a0=hexNib(line.charCodeAt(ci+6)),a1=hexNib(line.charCodeAt(ci+7));
+    if(a0>=0&&a1>=0)a=(a0<<4)|a1;
+    tmpX[count]=x; tmpY[count]=y;
+    tmpC[count]=r|(g<<8)|(b<<16)|(a<<24);
+    count++;
+    if(x>maxX)maxX=x;
+    if(y>maxY)maxY=y;
+    if(performance.now()-t>=YIELD_MS){
+      setProgress(progB,(i/total*80).toFixed(1),'');
+      tickerB.textContent='Parsing '+fmt(i)+' / '+fmt(total);
+      await sleep();t=tick();
+    }
   }
 
-  return { x, y, r, g, b, a };
+  const W=maxX+1,H=maxY+1;
+  const pixels=new Uint32Array(W*H);
+  for(let i=0;i<count;i++) pixels[tmpY[i]*W+tmpX[i]]=tmpC[i];
+  return {W,H,pixels};
+}
+
+// ── Shared render ─────────────────────────────────────────────
+async function renderPixels(W, H, pixels) {
+  canvasB.width = W; canvasB.height = H;
+  const ctx = canvasB.getContext('2d');
+  // pixels is Uint32Array in RGBA byte order → directly usable as ImageData
+  const u8 = new Uint8ClampedArray(pixels.buffer);
+  const imgData = new ImageData(u8, W, H);
+  ctx.putImageData(imgData, 0, 0);
 }
 
 convertBBtn.addEventListener('click', async () => {
@@ -710,130 +798,59 @@ convertBBtn.addEventListener('click', async () => {
   previewB.classList.remove('visible');
   metaB.innerHTML = '';
   setProgress(progB, 0, '');
-  tickerB.textContent = 'Parsing…';
-  await sleep();
 
-  // Split into lines
-  const lines  = raw.split('\n');
-  const total  = lines.length;
-
-  // First pass: parse all pixels into flat typed arrays for speed
-  // We'll store coords + colours in parallel arrays
-  const MAX = total; // upper bound
-  const xs = new Int32Array(MAX);
-  const ys = new Int32Array(MAX);
-  const rs = new Uint8Array(MAX);
-  const gs = new Uint8Array(MAX);
-  const bs = new Uint8Array(MAX);
-  const as = new Uint8Array(MAX);
-
-  let count  = 0;
-  let maxX   = 0;
-  let maxY   = 0;
-  let skipped= 0;
-  let lastYield = performance.now();
-
-  for (let i = 0; i < total; i++) {
-    const line = lines[i];
-    // Fast skip: blank or comment
-    const first = line.trimStart();
-    if (!first || first.charCodeAt(0) === 47) { skipped++; continue; } // '/'
-
-    const p = parseLine(line);
-    if (!p) { skipped++; continue; }
-
-    xs[count] = p.x; ys[count] = p.y;
-    rs[count] = p.r; gs[count] = p.g;
-    bs[count] = p.b; as[count] = p.a;
-    count++;
-
-    if (p.x > maxX) maxX = p.x;
-    if (p.y > maxY) maxY = p.y;
-
-    const now = performance.now();
-    if (now - lastYield >= YIELD_MS) {
-      setProgress(progB, (i / total * 60).toFixed(1), '');
-      tickerB.textContent = 'Parsing ' + fmt(i) + ' / ' + fmt(total);
-      await sleep();
-      lastYield = performance.now();
+  try {
+    let result;
+    if (raw.trimStart().startsWith('PIXELTXT v2')) {
+      result = await decodeV2(raw);
+    } else {
+      result = await decodeLegacy(raw);
     }
-  }
 
-  if (count === 0) {
-    tickerB.textContent = '✗ No valid pixel lines found';
+    const {W, H, pixels} = result;
+    tickerB.textContent = 'Rendering…';
+    setProgress(progB, 95, '');
+    await sleep();
+    await renderPixels(W, H, pixels);
+
+    setProgress(progB, 100, 'done');
+    previewB.classList.add('visible');
+    convertBBtn.disabled = false;
+    downloadBBtn.disabled = false;
+
+    metaB.innerHTML = '';
+    metaB.appendChild(pill('W', W+'px'));
+    metaB.appendChild(pill('H', H+'px'));
+    metaB.appendChild(pill('Pixels', fmt(W*H)));
+
+    tickerB.textContent = '✓ '+W+'×'+H+' image restructured';
+  } catch(err) {
+    tickerB.textContent = '✗ '+err.message;
     setProgress(progB, 100, 'err');
     convertBBtn.disabled = false;
-    return;
   }
-
-  const W = maxX + 1;
-  const H = maxY + 1;
-
-  tickerB.textContent = 'Drawing ' + W + '×' + H + '…';
-  setProgress(progB, 60, '');
-  await sleep();
-
-  // Build ImageData directly — single putImageData, much faster than per-pixel fillRect
-  canvasB.width  = W;
-  canvasB.height = H;
-  const ctx = canvasB.getContext('2d');
-
-  const imgData = new ImageData(W, H);
-  const d = imgData.data; // Uint8ClampedArray
-
-  lastYield = performance.now();
-  for (let i = 0; i < count; i++) {
-    const idx = (ys[i] * W + xs[i]) << 2;
-    d[idx]   = rs[i];
-    d[idx+1] = gs[i];
-    d[idx+2] = bs[i];
-    d[idx+3] = as[i];
-
-    const now = performance.now();
-    if (now - lastYield >= YIELD_MS) {
-      setProgress(progB, (60 + i / count * 38).toFixed(1), '');
-      tickerB.textContent = 'Drawing ' + fmt(i) + ' / ' + fmt(count);
-      await sleep();
-      lastYield = performance.now();
-    }
-  }
-
-  ctx.putImageData(imgData, 0, 0);
-
-  setProgress(progB, 100, 'done');
-  previewB.classList.add('visible');
-  convertBBtn.disabled = false;
-  downloadBBtn.disabled = false;
-
-  metaB.innerHTML = '';
-  metaB.appendChild(makePill('W', W + 'px'));
-  metaB.appendChild(makePill('H', H + 'px'));
-  metaB.appendChild(makePill('Pixels', fmt(count)));
-  if (skipped) metaB.appendChild(makePill('Skipped', fmt(skipped)));
-
-  tickerB.textContent = '✓ ' + W + '×' + H + ' image restructured';
 });
 
-downloadBBtn.addEventListener('click', () => {
-  canvasB.toBlob(blob => {
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'restructured.png';
+downloadBBtn.addEventListener('click', ()=>{
+  canvasB.toBlob(blob=>{
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='restructured.png';
     a.click();
-  }, 'image/png');
+  },'image/png');
 });
 
-clearBBtn.addEventListener('click', () => {
-  rawTxtB = '';
-  outputB.value = '';
+clearBBtn.addEventListener('click', ()=>{
+  rawTxtB='';
+  outputB.value='';
   previewB.classList.remove('visible');
-  metaB.innerHTML = '';
-  tickerB.textContent = '';
-  setProgress(progB, 0, '');
+  metaB.innerHTML='';
+  tickerB.textContent='';
+  setProgress(progB,0,'');
   warnB.classList.remove('visible');
-  convertBBtn.disabled = true;
-  downloadBBtn.disabled = true;
-  clearBBtn.disabled = true;
+  convertBBtn.disabled=true;
+  downloadBBtn.disabled=true;
+  clearBBtn.disabled=true;
 });
 </script>
 </body>
